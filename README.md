@@ -97,6 +97,8 @@ TaskFlow is packed with features designed to simplify your workflow:
 
 
 
+```
+
 ## 🚀 Get Started Locally & Ignite Your Flow!
 Ready to see TaskFlow in action or contribute to its development? Here's how to set up your local environment:
 
@@ -114,26 +116,29 @@ Make sure you have these tools installed:
 ```bash
 git clone https://github.com/sivansrawat/TaskFlow.git
 cd TaskFlow
+```
 (If you have separate frontend/backend repos, clone both.)
 
-Backend Setup (Node.js & PostgreSQL)
+2. **Backend Setup*** (Node.js & PostgreSQL)
 
-bash
+```bash
 Copy
 Edit
 cd backend
 npm install
-Create a PostgreSQL database and user:
+```
+3. **Create a PostgreSQL database and user:**
 
-sql
+```sql
 Copy
 Edit
 CREATE DATABASE taskflow_db;
 CREATE USER taskflow_user WITH PASSWORD 'your_secure_password';
 GRANT ALL PRIVILEGES ON DATABASE taskflow_db TO taskflow_user;
-Create a .env file in /backend:
+```
+4. **Create a .env file in /backend:**
 
-env
+```env
 Copy
 Edit
 NODE_ENV=development
@@ -149,34 +154,45 @@ AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 COGNITO_USER_POOL_ID=your_cognito_user_pool_id
 COGNITO_CLIENT_ID=your_cognito_client_id
-Run the Backend Server:
 
-bash
+```
+
+
+5. **Run the Backend Server:**
+
+```bash
 Copy
 Edit
 npm run dev
-Frontend Setup (Next.js)
+```
 
-bash
+6. **Frontend Setup (Next.js)**
+
+```bash
 Copy
 Edit
 cd ../frontend
 npm install
-Create a .env.local file in /frontend:
 
-env
+```
+
+7. **Create a .env.local file in /frontend:**
+
+```env
 Copy
 Edit
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
 NEXT_PUBLIC_COGNITO_REGION=your_aws_region
 NEXT_PUBLIC_COGNITO_USER_POOL_ID=your_cognito_user_pool_id
 NEXT_PUBLIC_COGNITO_CLIENT_ID=your_cognito_client_id
-Run the Frontend Dev Server:
+```
+8 . **Run the Frontend Dev Server:**
 
-bash
+```bash
 Copy
 Edit
 npm run dev
+```
 Visit the app at http://localhost:3000 and start managing your tasks!
 
 💡 Tips for Contributors
@@ -191,23 +207,28 @@ Create meaningful pull requests with clear descriptions.
 🧪 Running Tests
 To run backend tests:
 
-bash
+```bash
 Copy
 Edit
 cd backend
 npm test
+```
 To run frontend tests (if configured):
 
-bash
+```bash
 Copy
 Edit
 cd frontend
 npm test
+```
+
 📄 License
 This project is licensed under the MIT License.
 
-vbnet
+```vbnet
 Copy
 Edit
+
+```
 
 ✅ This is the **entire section** you wanted, in a **single uninterrupted Markdown block**. Let me 
