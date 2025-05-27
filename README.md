@@ -122,16 +122,12 @@ cd TaskFlow
 2. **Backend Setup*** (Node.js & PostgreSQL)
 
 ```bash
-Copy
-Edit
 cd backend
 npm install
 ```
 3. **Create a PostgreSQL database and user:**
 
 ```sql
-Copy
-Edit
 CREATE DATABASE taskflow_db;
 CREATE USER taskflow_user WITH PASSWORD 'your_secure_password';
 GRANT ALL PRIVILEGES ON DATABASE taskflow_db TO taskflow_user;
@@ -139,8 +135,6 @@ GRANT ALL PRIVILEGES ON DATABASE taskflow_db TO taskflow_user;
 4. **Create a .env file in /backend:**
 
 ```env
-Copy
-Edit
 NODE_ENV=development
 PORT=3001
 DB_HOST=localhost
@@ -161,16 +155,12 @@ COGNITO_CLIENT_ID=your_cognito_client_id
 5. **Run the Backend Server:**
 
 ```bash
-Copy
-Edit
 npm run dev
 ```
 
 6. **Frontend Setup (Next.js)**
 
 ```bash
-Copy
-Edit
 cd ../frontend
 npm install
 
@@ -179,8 +169,6 @@ npm install
 7. **Create a .env.local file in /frontend:**
 
 ```env
-Copy
-Edit
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
 NEXT_PUBLIC_COGNITO_REGION=your_aws_region
 NEXT_PUBLIC_COGNITO_USER_POOL_ID=your_cognito_user_pool_id
@@ -189,8 +177,6 @@ NEXT_PUBLIC_COGNITO_CLIENT_ID=your_cognito_client_id
 8 . **Run the Frontend Dev Server:**
 
 ```bash
-Copy
-Edit
 npm run dev
 ```
 Visit the app at http://localhost:3000 and start managing your tasks!
@@ -208,16 +194,12 @@ Create meaningful pull requests with clear descriptions.
 To run backend tests:
 
 ```bash
-Copy
-Edit
 cd backend
 npm test
 ```
 To run frontend tests (if configured):
 
 ```bash
-Copy
-Edit
 cd frontend
 npm test
 ```
