@@ -1,17 +1,119 @@
+// import React from "react";
+// import { Authenticator } from "@aws-amplify/ui-react";
+// import { Amplify } from "aws-amplify";
+// import "@aws-amplify/ui-react/styles.css";
+
+// Amplify.configure({
+//   Auth: {
+//     Cognito: {
+//       userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
+//       userPoolClientId:
+//         process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
+//     },
+//   },
+// });
+
+// const formFields = {
+//   signUp: {
+//     username: {
+//       order: 1,
+//       placeholder: "Choose a username",
+//       label: "Username",
+//       inputProps: { required: true },
+//     },
+//     email: {
+//       order: 1,
+//       placeholder: "Enter your email address",
+//       label: "Email",
+//       inputProps: { type: "email", required: true },
+//     },
+//     password: {
+//       order: 3,
+//       placeholder: "Enter your password",
+//       label: "Password",
+//       inputProps: { type: "password", required: true },
+//     },
+//     confirm_password: {
+//       order: 4,
+//       placeholder: "Confirm your password",
+//       label: "Confirm Password",
+//       inputProps: { type: "password", required: true },
+//     },
+//   },
+// };
+
+// const AuthProvider = ({ children }: any) => {
+//   return (
+//     <div>
+//       <Authenticator formFields={formFields}>
+//         {({ user }: any) =>
+//           user ? (
+//             <div>{children}</div>
+//           ) : (
+//             <div>
+//               <h1>Please sign in below:</h1>
+//             </div>
+//           )
+//         }
+//       </Authenticator>
+//     </div>
+//   );
+// };
+
+// export default AuthProvider;
+
+
+
+
+
+// File: TaskFlow/client/src/authprovider.tsx
+
 import React from "react";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 
+// --- START: AMPLIFY.configure BLOCK WITH TYPESCRIPT BYPASS ---
+// Amplify.configure({
+//   Auth: {
+//     userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
+//     userPoolClientId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
+//     userPoolWebClientId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
+//     identityPoolId: "",
+//     loginWith: {
+//       oauth: {
+//         domain: process.env.NEXT_PUBLIC_COGNITO_DOMAIN || "",
+//         scope: ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"],
+//         redirectSignIn: "http://localhost:3000",
+//         redirectSignOut: "http://localhost:3000",
+//         responseType: "code",
+//       },
+//     },
+//   } as any, // <--- CAST THE ENTIRE ARGUMENT OF AMPLIFY.configure TO 'any'
+// });
+
+
+
+
 Amplify.configure({
-  Auth: {
-    Cognito: {
-      userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
-      userPoolClientId:
-        process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
-    },
-  },
-});
+    Auth: {
+      region: process.env.NEXT_PUBLIC_COGNITO_REGION || "eu-north-1",
+      userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
+      userPoolWebClientId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
+      identityPoolId: "",
+      oauth: {
+        domain: process.env.NEXT_PUBLIC_COGNITO_DOMAIN || "",
+        scope: ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"],
+        redirectSignIn: "http://localhost:3000",
+        redirectSignOut: "http://localhost:3000",
+        responseType: "code",
+      },
+    } as any,
+  });
+  
+
+// --- END: AMPLIFY.configure BLOCK WITH TYPESCRIPT BYPASS ---
+
 
 const formFields = {
   signUp: {
@@ -22,7 +124,7 @@ const formFields = {
       inputProps: { required: true },
     },
     email: {
-      order: 1,
+      order: 2, // Corrected order
       placeholder: "Enter your email address",
       label: "Email",
       inputProps: { type: "email", required: true },
@@ -46,9 +148,14 @@ const AuthProvider = ({ children }: any) => {
   return (
     <div>
       <Authenticator formFields={formFields}>
-        {({ user }: any) =>
+        {({ user, signOut }) => // Destructure 'signOut' from the context
           user ? (
-            <div>{children}</div>
+            // --- FIX FOR 'attributes' ERROR: Access 'username' directly ---
+            <div>
+              <h1>Welcome, {user.username || 'User'}!</h1> {/* Changed this line */}
+              <button onClick={signOut}>Sign Out</button>
+              {children}
+            </div>
           ) : (
             <div>
               <h1>Please sign in below:</h1>
