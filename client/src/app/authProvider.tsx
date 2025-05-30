@@ -95,21 +95,31 @@ import "@aws-amplify/ui-react/styles.css";
 
 
 
+// Amplify.configure({
+//     Auth: {
+//       region: process.env.NEXT_PUBLIC_COGNITO_REGION || "eu-north-1",
+//       userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
+//       userPoolWebClientId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
+//       identityPoolId: "",
+//       oauth: {
+//         domain: process.env.NEXT_PUBLIC_COGNITO_DOMAIN || "",
+//         scope: ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"],
+//         redirectSignIn: "http://localhost:3000",
+//         redirectSignOut: "http://localhost:3000",
+//         responseType: "code",
+//       },
+//     } as any,
+//   });
+
 Amplify.configure({
-    Auth: {
-      region: process.env.NEXT_PUBLIC_COGNITO_REGION || "eu-north-1",
-      userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
-      userPoolWebClientId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
-      identityPoolId: "",
-      oauth: {
-        domain: process.env.NEXT_PUBLIC_COGNITO_DOMAIN || "",
-        scope: ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"],
-        redirectSignIn: "http://localhost:3000",
-        redirectSignOut: "http://localhost:3000",
-        responseType: "code",
-      },
-    } as any,
-  });
+  Auth: {
+    Cognito: {
+      userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
+      userPoolClientId:
+        process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
+    },
+  },
+});
   
 
 // --- END: AMPLIFY.configure BLOCK WITH TYPESCRIPT BYPASS ---
