@@ -5,3 +5,11 @@ server/dist/
 client/.env
 server/.env
 client/.next/
+
+client/.env
+client/.env.local
+client/.env.*
+
+
+
+
