@@ -1,95 +1,111 @@
 [
   {
+    "userId": 1,
     "username": "AliceJones",
     "teamId": 1,
     "profilePictureUrl": "p1.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174001"
   },
   {
+    "userId": 2,
     "username": "BobSmith",
     "teamId": 1,
     "profilePictureUrl": "p2.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174002"
   },
   {
+    "userId": 3,
     "username": "CarolWhite",
     "teamId": 2,
     "profilePictureUrl": "p3.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174003"
   },
   {
+    "userId": 4,
     "username": "DaveBrown",
     "teamId": 2,
     "profilePictureUrl": "p4.jpeg",
     "cognitoId": "213b7530-1031-70e0-67e9-fe0805e18fb3"
   },
   {
+    "userId": 5,
     "username": "EveClark",
     "teamId": 3,
     "profilePictureUrl": "p5.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174005"
   },
   {
+    "userId": 6,
     "username": "FrankWright",
     "teamId": 3,
     "profilePictureUrl": "p6.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174006"
   },
   {
+    "userId": 7,
     "username": "GraceHall",
     "teamId": 4,
     "profilePictureUrl": "p7.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174007"
   },
   {
+    "userId": 8,
     "username": "HenryAllen",
     "teamId": 4,
     "profilePictureUrl": "p8.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174008"
   },
   {
+    "userId": 9,
     "username": "IdaMartin",
     "teamId": 5,
     "profilePictureUrl": "p1.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174009"
   },
   {
+    "userId": 10,
     "username": "JohnDoe",
     "teamId": 5,
     "profilePictureUrl": "p2.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174010"
   },
   {
+    "userId": 11,
     "username": "LauraAdams",
     "teamId": 1,
     "profilePictureUrl": "p3.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174011"
   },
   {
+    "userId": 12,
     "username": "NormanBates",
     "teamId": 2,
     "profilePictureUrl": "p4.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174012"
   },
   {
+    "userId": 13,
     "username": "OliviaPace",
     "teamId": 3,
     "profilePictureUrl": "p5.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174013"
   },
   {
+    "userId": 14,
     "username": "PeterQuill",
     "teamId": 4,
     "profilePictureUrl": "p6.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174014"
   },
   {
+    "userId": 15,
     "username": "QuincyAdams",
     "teamId": 5,
     "profilePictureUrl": "p7.jpeg",
     "cognitoId": "123e4567-e89b-12d3-a456-426614174015"
   },
   {
+    "userId": 16,
     "username": "RachelGreen",
     "teamId": 1,
     "profilePictureUrl": "p8.jpeg",
