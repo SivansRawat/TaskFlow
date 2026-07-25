@@ -7,6 +7,7 @@ import {
   useGetAuthUserQuery,
   useGetProjectsQuery,
   useGetTasksByUserQuery,
+  useGetTasksQuery,
   useGetTeamsQuery,
 } from "@/state/api";
 import React, { useState } from "react";
@@ -91,6 +92,7 @@ const HomePage = () => {
     skip: !userId,
   });
 
+  const { data: allWorkspaceTasks } = useGetTasksQuery();
   const { data: projects, isLoading: isProjectsLoading } = useGetProjectsQuery();
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
@@ -104,24 +106,36 @@ const HomePage = () => {
   const allProjects = projects || [];
   const userTeam = teams?.find((t) => t.teamId === user?.teamId || (t as any).id === user?.teamId);
 
-  const completedTasksCount = tasks.filter((t) => t.status === "Completed").length;
-  const urgentTasksCount = tasks.filter(
+  // Use user tasks if available; otherwise fall back to all workspace tasks so analytics charts are rich and complete
+  const analyticsTasks = tasks.length > 0 ? tasks : (allWorkspaceTasks || []);
+
+  const completedTasksCount = (analyticsTasks.length > 0 ? analyticsTasks : tasks).filter(
+    (t) => t.status === "Completed",
+  ).length;
+
+  const urgentTasksCount = (analyticsTasks.length > 0 ? analyticsTasks : tasks).filter(
     (t) => t.priority === Priority.Urgent || t.priority === Priority.High,
   ).length;
 
-  const priorityCount = tasks.reduce(
+  const priorityOrder = ["Urgent", "High", "Medium", "Low", "Backlog"];
+
+  const priorityCount = analyticsTasks.reduce(
     (acc: Record<string, number>, task: Task) => {
       const { priority } = task;
-      acc[priority as Priority] = (acc[priority as Priority] || 0) + 1;
+      if (priority) {
+        acc[priority] = (acc[priority] || 0) + 1;
+      }
       return acc;
     },
     {},
   );
 
-  const taskDistribution = Object.keys(priorityCount).map((key) => ({
-    name: key,
-    count: priorityCount[key],
-  }));
+  const taskDistribution = priorityOrder
+    .map((key) => ({
+      name: key,
+      count: priorityCount[key] || 0,
+    }))
+    .filter((item) => item.count > 0 || analyticsTasks.length > 0);
 
   const statusCount = allProjects.reduce(
     (acc: Record<string, number>, project: Project) => {
