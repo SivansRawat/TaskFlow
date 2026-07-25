@@ -7,9 +7,7 @@ export const getTasks = async (req: Request, res: Response): Promise<void> => {
   const { projectId } = req.query;
   try {
     const tasks = await prisma.task.findMany({
-      where: {
-        projectId: Number(projectId),
-      },
+      where: projectId ? { projectId: Number(projectId) } : {},
       include: {
         author: true,
         assignee: true,
@@ -110,5 +108,22 @@ export const getUserTasks = async (
     res
       .status(500)
       .json({ message: `Error retrieving user's tasks: ${error.message}` });
+  }
+};
+
+export const deleteTask = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { taskId } = req.params;
+  try {
+    const id = Number(taskId);
+    await prisma.taskAssignment.deleteMany({ where: { taskId: id } });
+    await prisma.attachment.deleteMany({ where: { taskId: id } });
+    await prisma.comment.deleteMany({ where: { taskId: id } });
+    await prisma.task.delete({ where: { id } });
+    res.json({ message: "Task deleted successfully" });
+  } catch (error: any) {
+    res.status(500).json({ message: `Error deleting task: ${error.message}` });
   }
 };

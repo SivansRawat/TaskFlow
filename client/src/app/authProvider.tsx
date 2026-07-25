@@ -1,167 +1,341 @@
 
-// import React from "react";
-// import { Authenticator } from "@aws-amplify/ui-react";
-// import { Amplify } from "aws-amplify";
-// import "@aws-amplify/ui-react/styles.css";
+"use client";
 
+import React, { useState, useEffect } from "react";
+import { useGetAuthUserQuery, useCreateUserMutation, useLoginUserMutation } from "@/state/api";
+import Image from "next/image";
+import Logo from "@/components/Logo";
+import LandingPage from "@/components/LandingPage";
 
+const avatars = [
+  "p1.jpeg", "p2.jpeg", "p3.jpeg", "p4.jpeg",
+  "p5.jpeg", "p6.jpeg", "p7.jpeg", "p8.jpeg"
+];
 
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [activeSub, setActiveSub] = useState<string | null>(null);
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  // Sign In state
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
+  // Sign Up state
+  const [newUsername, setNewUsername] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [selectedAvatar, setSelectedAvatar] = useState("p1.jpeg");
 
+  const { data: currentUser, refetch, isLoading: isAuthLoading } = useGetAuthUserQuery(activeSub);
+  const [loginUser, { isLoading: isLoggingIn }] = useLoginUserMutation();
+  const [createUser, { isLoading: isCreating }] = useCreateUserMutation();
 
-// Amplify.configure({
-//   Auth: {
-//     Cognito: {
-//       userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
-//       userPoolClientId:
-//         process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
-//     },
-//   },
-// });
-  
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
+  useEffect(() => {
+    const storedSub = localStorage.getItem("taskflow_user_sub");
+    if (storedSub) {
+      setActiveSub(storedSub);
+    } else {
+      setActiveSub(null);
+    }
+  }, []);
 
+  const handleQuickDemoLogin = async (demoSub: string = "123e4567-e89b-12d3-a456-426614174001") => {
+    localStorage.setItem("taskflow_user_sub", demoSub);
+    setActiveSub(demoSub);
+    setIsAuthModalOpen(false);
+    await refetch();
+  };
 
-// const formFields = {
-//   signUp: {
-//     username: {
-//       order: 1,
-//       placeholder: "Choose a username",
-//       label: "Username",
-//       inputProps: { required: true },
-//     },
-//     email: {
-//       order: 2, // Corrected order
-//       placeholder: "Enter your email address",
-//       label: "Email",
-//       inputProps: { type: "email", required: true },
-//     },
-//     password: {
-//       order: 3,
-//       placeholder: "Enter your password",
-//       label: "Password",
-//       inputProps: { type: "password", required: true },
-//     },
-//     confirm_password: {
-//       order: 4,
-//       placeholder: "Confirm your password",
-//       label: "Confirm Password",
-//       inputProps: { type: "password", required: true },
-//     },
-//   },
-// };
+  const openAuthModal = (initialMode: "signin" | "signup" = "signin") => {
+    setMode(initialMode);
+    setErrorMsg(null);
+    setIsAuthModalOpen(true);
+  };
 
-// const AuthProvider = ({ children }: any) => {
-//   return (
-//     <div>
-//       <Authenticator formFields={formFields}>
-//         {({ user, signOut }) => // Destructure 'signOut' from the context
-//           user ? (
-//             // --- FIX FOR 'attributes' ERROR: Access 'username' directly ---
-//             <div>
-//               <h1>Welcome, {user.username || 'User'}!</h1> {/* Changed this line */}
-//               <button onClick={signOut}>Sign Out</button>
-//               {children}
-//             </div>
-//           ) : (
-//             <div>
-//               <h1>Please sign in below:</h1>
-//             </div>
-//           )
-//         }
-//       </Authenticator>
-//     </div>
-//   );
-// };
+  const handleSignInSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    if (!loginUsername.trim() || !loginPassword.trim()) return;
 
-// export default AuthProvider;
+    try {
+      const res = await loginUser({
+        username: loginUsername.trim(),
+        password: loginPassword.trim(),
+      }).unwrap();
 
+      const userSub = res.newUser.cognitoId || String(res.newUser.userId);
+      localStorage.setItem("taskflow_user_sub", userSub);
+      setActiveSub(userSub);
+      setLoginPassword("");
+      setIsAuthModalOpen(false);
+      await refetch();
+    } catch (err: any) {
+      try {
+        const res = await createUser({
+          username: loginUsername.trim(),
+          password: loginPassword.trim(),
+          profilePictureUrl: "p1.jpeg",
+        }).unwrap();
+        const userSub = res.newUser.cognitoId || String(res.newUser.userId);
+        localStorage.setItem("taskflow_user_sub", userSub);
+        setActiveSub(userSub);
+        setIsAuthModalOpen(false);
+        await refetch();
+      } catch (createErr: any) {
+        setErrorMsg("Invalid credentials. Please check your username and password or create a new account.");
+      }
+    }
+  };
 
+  const handleCreateAccountSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    if (!newUsername.trim() || !newPassword.trim()) return;
 
-// File: TaskFlow/client/src/authprovider.tsx
+    try {
+      const res = await createUser({
+        username: newUsername.trim(),
+        email: newEmail.trim() || undefined,
+        password: newPassword.trim(),
+        profilePictureUrl: selectedAvatar,
+      }).unwrap();
 
-import React from "react";
-import { Authenticator } from "@aws-amplify/ui-react";
-import { Amplify } from "aws-amplify";
-import "@aws-amplify/ui-react/styles.css";
+      const userSub = res.newUser.cognitoId || String(res.newUser.userId);
+      localStorage.setItem("taskflow_user_sub", userSub);
+      setActiveSub(userSub);
+      setNewUsername("");
+      setNewEmail("");
+      setNewPassword("");
+      setIsAuthModalOpen(false);
+      await refetch();
+    } catch (err: any) {
+      setErrorMsg(err.data?.message || "Error creating user account");
+    }
+  };
 
-Amplify.configure({
-  Auth: {
-    Cognito: {
-      userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
-      userPoolClientId:
-        process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
-      // If you are using a userPoolWebClientId (for SPA/web apps), it's good practice to include it here:
-      // userPoolWebClientId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
-    },
-  },
-});
+  if (isAuthLoading && activeSub) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-slate-950 text-white font-sans">
+        <div className="flex items-center gap-3 text-lg font-semibold">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+          <span>Opening TaskFlow Workspace...</span>
+        </div>
+      </div>
+    );
+  }
 
-const formFields = {
-  signUp: {
-    // Reorder email to be first for better UX, or keep it as order: 2
-    email: {
-      order: 1, // Changed order
-      placeholder: "Enter your email address",
-      label: "Email",
-      inputProps: { type: "email", required: true },
-    },
-    // This 'username' field will be mapped to the Cognito 'username' primary identifier.
-    // If your User Pool uses email as the primary sign-in (most common),
-    // then the 'username' field in your form should be treated as 'preferred_username'
-    // in Cognito. We need to tell Authenticator how to map this.
-    // We achieve this by *renaming* the key in formFields to 'preferred_username' directly,
-    // and letting the Authenticator handle the primary 'username' from 'email' if configured.
-    preferred_username: { // CHANGED KEY FROM 'username' TO 'preferred_username'
-      order: 2, // Changed order
-      placeholder: "Choose a display username", // More descriptive placeholder
-      label: "Display Username", // More descriptive label
-      // You can also use 'Username' if that's what you prefer to call it on the UI
-      inputProps: { required: true },
-    },
-    // NEW FIELD FOR 'name'
-    name: { // ADDED THIS FIELD FOR THE REQUIRED 'name' ATTRIBUTE
-      order: 3, // New order
-      placeholder: "Enter your full name",
-      label: "Full Name",
-      inputProps: { required: true },
-    },
-    password: {
-      order: 4, // Changed order
-      placeholder: "Enter your password",
-      label: "Password",
-      inputProps: { type: "password", required: true },
-    },
-    confirm_password: {
-      order: 5, // Changed order
-      placeholder: "Confirm your password",
-      label: "Confirm Password",
-      inputProps: { type: "password", required: true },
-    },
-  },
-};
+  const isAuthenticated = Boolean(currentUser?.userDetails && activeSub);
 
-const AuthProvider = ({ children }: any) => {
+  // If authenticated, open the application workspace
+  if (isAuthenticated) {
+    return <>{children}</>;
+  }
+
+  // If not authenticated, show Landing Page with Auth Modal
   return (
-    <div>
-      <Authenticator formFields={formFields}>
-        {({ user, signOut }) => // Destructure 'signOut' from the context
-          user ? (
-            <div>
-              {/* Accessing user.username for display. Cognito's user.username is the primary identifier. */}
-              {/* If you prefer to display preferred_username here, you'd access user.attributes.preferred_username */}
-              <h1>Welcome, {user.username || (user as any).attributes?.preferred_username || 'User'}!</h1>
-              <button onClick={signOut}>Sign Out</button>
-              {children}
+    <div className="relative w-full min-h-screen">
+      <LandingPage onOpenAuth={(m) => openAuthModal(m || "signin")} />
+
+      {/* Auth Modal Overlay */}
+      {isAuthModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
+          <div className="relative w-full max-w-md rounded-2xl bg-slate-900 border border-slate-800 p-8 shadow-2xl text-slate-100">
+            <button
+              onClick={() => setIsAuthModalOpen(false)}
+              className="absolute right-4 top-4 rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition"
+            >
+              ✕
+            </button>
+
+            <div className="mb-6 text-center">
+              <div className="mb-2 flex items-center justify-center gap-3">
+                <Logo size={44} />
+                <h1 className="text-2xl font-black tracking-wider text-white">
+                  TASKFLOW
+                </h1>
+              </div>
+              <p className="text-sm text-slate-400">
+                Sign in to your account or register to start
+              </p>
             </div>
-          ) : (
-            <div>
-              <h1>Please sign in below:</h1>
+
+            {errorMsg && (
+              <div className="mb-4 rounded-xl bg-red-500/10 border border-red-500/30 p-3 text-xs font-semibold text-red-400">
+                {errorMsg}
+              </div>
+            )}
+
+            {/* Tab Switcher */}
+            <div className="mb-6 flex rounded-xl bg-slate-950 p-1 border border-slate-800">
+              <button
+                type="button"
+                className={`flex-1 rounded-lg py-2.5 text-xs font-bold transition ${
+                  mode === "signin"
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+                onClick={() => {
+                  setMode("signin");
+                  setErrorMsg(null);
+                }}
+              >
+                Sign In
+              </button>
+              <button
+                type="button"
+                className={`flex-1 rounded-lg py-2.5 text-xs font-bold transition ${
+                  mode === "signup"
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+                onClick={() => {
+                  setMode("signup");
+                  setErrorMsg(null);
+                }}
+              >
+                Create Account
+              </button>
             </div>
-          )
-        }
-      </Authenticator>
+
+            {mode === "signin" ? (
+              <form onSubmit={handleSignInSubmit} className="space-y-4">
+                <div>
+                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Username or Email
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter username or email"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none transition"
+                    value={loginUsername}
+                    onChange={(e) => setLoginUsername(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none transition"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoggingIn || !loginUsername.trim() || !loginPassword.trim()}
+                  className="mt-2 w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+                >
+                  {isLoggingIn ? "Authenticating..." : "Sign In & Access Workspace"}
+                </button>
+
+                <div className="relative my-4 flex items-center justify-center">
+                  <div className="w-full border-t border-slate-800" />
+                  <span className="absolute bg-slate-900 px-3 text-xs font-semibold text-slate-500">
+                    OR
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleQuickDemoLogin()}
+                  className="w-full rounded-xl border border-slate-700 bg-slate-800/80 py-3 text-xs font-bold text-blue-400 hover:bg-slate-800 hover:border-slate-600 transition flex items-center justify-center gap-2"
+                >
+                  ⚡ Quick Demo Sign-In (Instant Access)
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleCreateAccountSubmit} className="space-y-4">
+                <div>
+                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. AlexMorgan"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none transition"
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Email (Optional)
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="alex@example.com"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none transition"
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none transition"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Choose Profile Avatar
+                  </label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {avatars.map((img) => (
+                      <button
+                        key={img}
+                        type="button"
+                        onClick={() => setSelectedAvatar(img)}
+                        className={`relative overflow-hidden rounded-full border-2 p-1 transition ${
+                          selectedAvatar === img
+                            ? "border-blue-500 scale-105"
+                            : "border-transparent opacity-60 hover:opacity-100"
+                        }`}
+                      >
+                        <Image
+                          src={`/${img}`}
+                          alt="Avatar"
+                          width={48}
+                          height={48}
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isCreating || !newUsername.trim() || !newPassword.trim()}
+                  className="mt-2 w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+                >
+                  {isCreating ? "Creating Account..." : "Create Account & Launch Workspace"}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

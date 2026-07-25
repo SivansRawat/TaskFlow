@@ -1,5 +1,5 @@
 import Modal from "@/components/Modal";
-import { Priority, Status, useCreateTaskMutation } from "@/state/api";
+import { Priority, Status, useCreateTaskMutation, useGetUsersQuery } from "@/state/api";
 import React, { useState } from "react";
 import { formatISO } from "date-fns";
 
@@ -11,6 +11,8 @@ type Props = {
 
 const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
+  const { data: users } = useGetUsersQuery();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<Status>(Status.ToDo);
@@ -18,19 +20,21 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   const [tags, setTags] = useState("");
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [authorUserId, setAuthorUserId] = useState("");
+  const [authorUserId, setAuthorUserId] = useState("1");
   const [assignedUserId, setAssignedUserId] = useState("");
   const [projectId, setProjectId] = useState("");
 
-  const handleSubmit = async () => {
-    if (!title || !authorUserId || !(id !== null || projectId)) return;
+  const targetProjectId = id !== null && id !== undefined ? id : projectId;
 
-    const formattedStartDate = formatISO(new Date(startDate), {
-      representation: "complete",
-    });
-    const formattedDueDate = formatISO(new Date(dueDate), {
-      representation: "complete",
-    });
+  const handleSubmit = async () => {
+    if (!title || !authorUserId || !targetProjectId) return;
+
+    const formattedStartDate = startDate
+      ? formatISO(new Date(startDate), { representation: "complete" })
+      : undefined;
+    const formattedDueDate = dueDate
+      ? formatISO(new Date(dueDate), { representation: "complete" })
+      : undefined;
 
     await createTask({
       title,
@@ -41,13 +45,25 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
       startDate: formattedStartDate,
       dueDate: formattedDueDate,
       authorUserId: parseInt(authorUserId),
-      assignedUserId: parseInt(assignedUserId),
-      projectId: id !== null ? Number(id) : Number(projectId),
+      assignedUserId: assignedUserId ? parseInt(assignedUserId) : undefined,
+      projectId: Number(targetProjectId),
     });
+
+    setTitle("");
+    setDescription("");
+    setStatus(Status.ToDo);
+    setPriority(Priority.Backlog);
+    setTags("");
+    setStartDate("");
+    setDueDate("");
+    setAuthorUserId("1");
+    setAssignedUserId("");
+    setProjectId("");
+    onClose();
   };
 
   const isFormValid = () => {
-    return title && authorUserId && !(id !== null || projectId);
+    return Boolean(title && authorUserId && targetProjectId);
   };
 
   const selectStyles =
@@ -129,20 +145,43 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
             onChange={(e) => setDueDate(e.target.value)}
           />
         </div>
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="Author User ID"
-          value={authorUserId}
-          onChange={(e) => setAuthorUserId(e.target.value)}
-        />
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="Assigned User ID"
-          value={assignedUserId}
-          onChange={(e) => setAssignedUserId(e.target.value)}
-        />
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
+          <div>
+            <label className="mb-1 block text-xs font-semibold text-gray-500 dark:text-gray-300">
+              Author
+            </label>
+            <select
+              className={selectStyles}
+              value={authorUserId}
+              onChange={(e) => setAuthorUserId(e.target.value)}
+            >
+              {users?.map((u) => (
+                <option key={u.userId} value={u.userId}>
+                  {u.username}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-semibold text-gray-500 dark:text-gray-300">
+              Assignee
+            </label>
+            <select
+              className={selectStyles}
+              value={assignedUserId}
+              onChange={(e) => setAssignedUserId(e.target.value)}
+            >
+              <option value="">Unassigned</option>
+              {users?.map((u) => (
+                <option key={u.userId} value={u.userId}>
+                  {u.username}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         {id === null && (
           <input
             type="text"
@@ -167,3 +206,4 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
 };
 
 export default ModalNewTask;
+

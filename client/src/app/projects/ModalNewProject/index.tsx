@@ -2,6 +2,7 @@ import Modal from "@/components/Modal";
 import { useCreateProjectMutation } from "@/state/api";
 import React, { useState } from "react";
 import { formatISO } from "date-fns";
+import { useRouter } from "next/navigation";
 
 type Props = {
   isOpen: boolean;
@@ -9,6 +10,7 @@ type Props = {
 };
 
 const ModalNewProject = ({ isOpen, onClose }: Props) => {
+  const router = useRouter();
   const [createProject, { isLoading }] = useCreateProjectMutation();
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
@@ -25,16 +27,26 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
       representation: "complete",
     });
 
-    await createProject({
+    const newProject = await createProject({
       name: projectName,
       description,
       startDate: formattedStartDate,
       endDate: formattedEndDate,
-    });
+    }).unwrap();
+
+    setProjectName("");
+    setDescription("");
+    setStartDate("");
+    setEndDate("");
+    onClose();
+
+    if (newProject?.id) {
+      router.push(`/projects/${newProject.id}`);
+    }
   };
 
   const isFormValid = () => {
-    return projectName && description && startDate && endDate;
+    return Boolean(projectName && startDate && endDate);
   };
 
   const inputStyles =

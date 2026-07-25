@@ -24,7 +24,7 @@ app.use(cors());
 
 /* ROUTES */
 app.get("/", (req, res) => {
-  res.send("This is home route");
+  res.send("TaskFlow API is running smoothly 🚀");
 });
 
 app.use("/projects", projectRoutes);
@@ -33,8 +33,21 @@ app.use("/search", searchRoutes);
 app.use("/users", userRoutes);
 app.use("/teams", teamRoutes);
 
+/* 404 & GLOBAL ERROR HANDLING */
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+app.use((err: any, req: Request, res: Response, next: any) => {
+  console.error("Unhandled Error:", err);
+  res.status(err.status || 500).json({
+    message: err.message || "An internal server error occurred",
+  });
+});
+
 /* SERVER */
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on part ${port}`);
+  console.log(`Server running on port ${port}`);
 });
+

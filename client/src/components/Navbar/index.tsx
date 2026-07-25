@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Menu, Moon, Search, Settings, Sun, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
 import { useGetAuthUserQuery } from "@/state/api";
-import { signOut } from "aws-amplify/auth";
 import Image from "next/image";
 
 const Navbar = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: currentUser } = useGetAuthUserQuery({});
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error("Error signing out: ", error);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push("/search");
     }
   };
 
@@ -37,14 +41,19 @@ const Navbar = () => {
             <Menu className="h-8 w-8 dark:text-white" />
           </button>
         )}
-        <div className="relative flex h-min w-[200px]">
-          <Search className="absolute left-[4px] top-1/2 mr-2 h-5 w-5 -translate-y-1/2 transform cursor-pointer dark:text-white" />
+        <form onSubmit={handleSearchSubmit} className="relative flex h-min w-[200px]">
+          <Search
+            onClick={handleSearchSubmit}
+            className="absolute left-[4px] top-1/2 mr-2 h-5 w-5 -translate-y-1/2 transform cursor-pointer dark:text-white"
+          />
           <input
             className="w-full rounded border-none bg-gray-100 p-2 pl-8 placeholder-gray-500 focus:border-transparent focus:outline-none dark:bg-gray-700 dark:text-white dark:placeholder-white"
             type="search"
             placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
+        </form>
       </div>
 
       {/* Icons */}
@@ -78,7 +87,7 @@ const Navbar = () => {
           <div className="align-center flex h-9 w-9 justify-center">
             {!!currentUserDetails?.profilePictureUrl ? (
               <Image
-                src={`https://pm-s3-imge.s3.eu-north-1.amazonaws.com/${currentUserDetails?.profilePictureUrl}`}
+                src={`/${currentUserDetails?.profilePictureUrl}`}
                 alt={currentUserDetails?.username || "User Profile Picture"}
                 width={100}
                 height={50}
@@ -88,14 +97,17 @@ const Navbar = () => {
               <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />
             )}
           </div>
-          <span className="mx-3 text-gray-800 dark:text-white">
+          <span className="mx-3 text-gray-800 dark:text-white font-semibold">
             {currentUserDetails?.username}
           </span>
           <button
-            className="hidden rounded bg-blue-400 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block"
-            onClick={handleSignOut}
+            className="hidden rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-blue-700 md:block"
+            onClick={() => {
+              localStorage.removeItem("taskflow_user_sub");
+              window.location.reload();
+            }}
           >
-            Sign out
+            Sign Out
           </button>
         </div>
       </div>
