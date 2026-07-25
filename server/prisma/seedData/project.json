@@ -1,72 +1,58 @@
 [
   {
     "id": 1,
-    "name": "Apollo",
-    "description": "A space exploration project.",
-    "startDate": "2023-01-01T00:00:00Z",
-    "endDate": "2023-12-31T00:00:00Z"
+    "name": "TaskFlow Enterprise Core",
+    "description": "Next-gen workspace features, dark theme UI & real-time analytics engine.",
+    "startDate": "2026-06-01T00:00:00Z",
+    "endDate": "2026-12-31T00:00:00Z"
   },
   {
     "id": 2,
-    "name": "Beacon",
-    "description": "Developing advanced navigation systems.",
-    "startDate": "2023-02-01T00:00:00Z",
-    "endDate": "2023-10-15T00:00:00Z"
+    "name": "AI Telemedicine Suite",
+    "description": "AI symptom triage pipeline, appointment booking & HD video stream integration.",
+    "startDate": "2026-05-15T00:00:00Z",
+    "endDate": "2026-11-30T00:00:00Z"
   },
   {
     "id": 3,
-    "name": "Catalyst",
-    "description": "A project to boost renewable energy use.",
-    "startDate": "2023-03-05T00:00:00Z",
-    "endDate": "2024-03-05T00:00:00Z"
+    "name": "Cloud Infrastructure Upgrade",
+    "description": "PostgreSQL serverless migration, containerization & multi-region deployment.",
+    "startDate": "2026-07-01T00:00:00Z",
+    "endDate": "2026-10-15T00:00:00Z"
   },
   {
     "id": 4,
-    "name": "Delta",
-    "description": "Delta project for new software development techniques.",
-    "startDate": "2023-01-20T00:00:00Z",
-    "endDate": "2023-09-20T00:00:00Z"
+    "name": "Mobile App React Native",
+    "description": "iOS and Android cross-platform client with offline task synchronization.",
+    "startDate": "2026-06-15T00:00:00Z",
+    "endDate": "2026-12-15T00:00:00Z"
   },
   {
     "id": 5,
-    "name": "Echo",
-    "description": "Echo project focused on AI advancements.",
-    "startDate": "2023-04-15T00:00:00Z",
-    "endDate": "2023-11-30T00:00:00Z"
+    "name": "Design System 2.0",
+    "description": "Glassmorphism UI components, dynamic theme switching & typography tokens.",
+    "startDate": "2026-07-10T00:00:00Z",
+    "endDate": "2026-09-30T00:00:00Z"
   },
   {
     "id": 6,
-    "name": "Foxtrot",
-    "description": "Exploring cutting-edge biotechnology.",
-    "startDate": "2023-02-25T00:00:00Z",
-    "endDate": "2023-08-25T00:00:00Z"
+    "name": "Security & Compliance",
+    "description": "SOC2 compliance auditing, bcrypt password hashing & RBAC authorization.",
+    "startDate": "2026-06-01T00:00:00Z",
+    "endDate": "2026-08-31T00:00:00Z"
   },
   {
     "id": 7,
-    "name": "Golf",
-    "description": "Development of new golf equipment using AI.",
-    "startDate": "2023-05-10T00:00:00Z",
-    "endDate": "2023-12-10T00:00:00Z"
+    "name": "DevOps Automation Pipeline",
+    "description": "Automated GitHub Actions CI/CD workflows & unit testing suites.",
+    "startDate": "2026-07-01T00:00:00Z",
+    "endDate": "2026-11-01T00:00:00Z"
   },
   {
     "id": 8,
-    "name": "Hotel",
-    "description": "Hotel management system overhaul.",
-    "startDate": "2023-03-01T00:00:00Z",
-    "endDate": "2024-01-01T00:00:00Z"
-  },
-  {
-    "id": 9,
-    "name": "India",
-    "description": "Telecommunication infrastructure upgrade.",
-    "startDate": "2023-06-01T00:00:00Z",
-    "endDate": "2023-12-01T00:00:00Z"
-  },
-  {
-    "id": 10,
-    "name": "Juliet",
-    "description": "Initiative to enhance cyber-security measures.",
-    "startDate": "2023-07-01T00:00:00Z",
-    "endDate": "2024-02-01T00:00:00Z"
+    "name": "Global Search & Indexing",
+    "description": "High-performance Elasticsearch full-text index for tasks, projects & teams.",
+    "startDate": "2026-06-20T00:00:00Z",
+    "endDate": "2026-10-31T00:00:00Z"
   }
 ]
