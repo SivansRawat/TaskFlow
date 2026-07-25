@@ -351,28 +351,33 @@ const HomePage = () => {
           </div>
 
           {/* Tasks Table */}
-          <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary md:col-span-2">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-base font-bold dark:text-white">
-                Your Assigned Tasks ({tasks.length})
-              </h3>
-              <Link href="/timeline" className="text-xs font-bold text-blue-600 hover:underline dark:text-blue-400">
-                View Timeline View →
-              </Link>
-            </div>
-            <div style={{ height: 350, width: "100%" }}>
-              <DataGrid
-                rows={tasks}
-                columns={taskColumns}
-                checkboxSelection
-                loading={tasksLoading}
-                getRowClassName={() => "data-grid-row"}
-                getCellClassName={() => "data-grid-cell"}
-                className={dataGridClassNames}
-                sx={dataGridSxStyles(isDarkMode)}
-              />
-            </div>
-          </div>
+          {(() => {
+            const gridTasks = tasks.length > 0 ? tasks : (allWorkspaceTasks || []);
+            return (
+              <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary md:col-span-2">
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="text-base font-bold dark:text-white">
+                    Your Assigned Tasks ({gridTasks.length})
+                  </h3>
+                  <Link href="/timeline" className="text-xs font-bold text-blue-600 hover:underline dark:text-blue-400">
+                    View Timeline View →
+                  </Link>
+                </div>
+                <div style={{ height: 350, width: "100%" }}>
+                  <DataGrid
+                    rows={gridTasks}
+                    columns={taskColumns}
+                    checkboxSelection
+                    loading={tasksLoading}
+                    getRowClassName={() => "data-grid-row"}
+                    getCellClassName={() => "data-grid-cell"}
+                    className={dataGridClassNames}
+                    sx={dataGridSxStyles(isDarkMode)}
+                  />
+                </div>
+              </div>
+            );
+          })()}
         </div>
       )}
     </div>

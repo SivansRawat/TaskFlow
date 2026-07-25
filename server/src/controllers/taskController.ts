@@ -96,6 +96,7 @@ export const getUserTasks = async (
         OR: [
           { authorUserId: Number(userId) },
           { assignedUserId: Number(userId) },
+          { taskAssignments: { some: { userId: Number(userId) } } },
         ],
       },
       include: {

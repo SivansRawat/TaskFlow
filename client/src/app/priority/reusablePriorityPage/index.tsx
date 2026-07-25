@@ -10,6 +10,7 @@ import {
   Task,
   useGetAuthUserQuery,
   useGetTasksByUserQuery,
+  useGetTasksQuery,
 } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
@@ -22,7 +23,7 @@ const columns: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
-    width: 100,
+    width: 200,
   },
   {
     field: "description",
@@ -42,7 +43,7 @@ const columns: GridColDef[] = [
   {
     field: "priority",
     headerName: "Priority",
-    width: 75,
+    width: 130,
   },
   {
     field: "tags",
@@ -63,13 +64,13 @@ const columns: GridColDef[] = [
     field: "author",
     headerName: "Author",
     width: 150,
-    renderCell: (params) => params.value?.username || "Unknown",
+    renderCell: (params) => params.row?.author?.username || "Unknown",
   },
   {
     field: "assignee",
     headerName: "Assignee",
     width: 150,
-    renderCell: (params) => params.value?.username || "Unassigned",
+    renderCell: (params) => params.row?.assignee?.username || "Unassigned",
   },
 ];
 
@@ -77,23 +78,25 @@ const ReusablePriorityPage = ({ priority }: Props) => {
   const [view, setView] = useState("list");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
-  const { data: currentUser } = useGetAuthUserQuery({});
+  const { data: currentUser } = useGetAuthUserQuery(null);
   const userId = currentUser?.userDetails?.userId ?? null;
   const {
-    data: tasks,
-    isLoading,
-    isError: isTasksError,
+    data: userTasks,
+    isLoading: isUserTasksLoading,
   } = useGetTasksByUserQuery(userId || 0, {
     skip: userId === null,
   });
 
+  const { data: allTasks, isLoading: isAllTasksLoading } = useGetTasksQuery();
+
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
-  const filteredTasks = tasks?.filter(
+  const availableTasks = (userTasks && userTasks.length > 0) ? userTasks : (allTasks || []);
+  const filteredTasks = availableTasks.filter(
     (task: Task) => task.priority === priority,
   );
 
-  if (isTasksError || !tasks) return <div>Error fetching tasks</div>;
+  const isLoading = isUserTasksLoading || isAllTasksLoading;
 
   return (
     <div className="m-5 p-4">
