@@ -42,9 +42,20 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 
+import TaskDetailModal from "@/components/TaskDetailModal";
+
 const taskColumns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
-  { field: "title", headerName: "Task Title", width: 220 },
+  {
+    field: "issueKey",
+    headerName: "Key",
+    width: 110,
+    renderCell: (params) => (
+      <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800">
+        {params.row.issueKey || `TF-${params.row.id + 100}`}
+      </span>
+    ),
+  },
+  { field: "title", headerName: "Task Title", width: 230 },
   {
     field: "status",
     headerName: "Status",
@@ -97,6 +108,7 @@ const HomePage = () => {
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const [isModalNewProjectOpen, setIsModalNewProjectOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   if (tasksLoading || isProjectsLoading) {
     return <div className="p-8 font-semibold dark:text-white">Loading Workspace Dashboard...</div>;
@@ -355,6 +367,11 @@ const HomePage = () => {
             const gridTasks = tasks.length > 0 ? tasks : (allWorkspaceTasks || []);
             return (
               <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary md:col-span-2">
+                <TaskDetailModal
+                  task={selectedTask}
+                  isOpen={Boolean(selectedTask)}
+                  onClose={() => setSelectedTask(null)}
+                />
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="text-base font-bold dark:text-white">
                     Your Assigned Tasks ({gridTasks.length})
@@ -369,7 +386,8 @@ const HomePage = () => {
                     columns={taskColumns}
                     checkboxSelection
                     loading={tasksLoading}
-                    getRowClassName={() => "data-grid-row"}
+                    onRowClick={(params) => setSelectedTask(params.row)}
+                    getRowClassName={() => "data-grid-row cursor-pointer"}
                     getCellClassName={() => "data-grid-cell"}
                     className={dataGridClassNames}
                     sx={dataGridSxStyles(isDarkMode)}
