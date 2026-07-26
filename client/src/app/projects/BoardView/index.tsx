@@ -134,11 +134,14 @@ const TaskColumn = ({
   setIsModalNewTaskOpen,
   onOpenDetail,
 }: TaskColumnProps) => {
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: "task",
-    drop: (item: { id: number }) => moveTask(item.id, status),
+    drop: (item: { id: number }) => {
+      moveTask(item.id, status);
+    },
     collect: (monitor: any) => ({
       isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop(),
     }),
   }));
 
@@ -156,8 +159,12 @@ const TaskColumn = ({
       ref={(instance) => {
         drop(instance);
       }}
-      className={`rounded-2xl p-3 bg-slate-100/70 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800/80 transition-all ${
-        isOver ? "bg-blue-500/10 border-blue-500/50" : ""
+      className={`rounded-2xl p-3 bg-slate-100/80 dark:bg-slate-950/80 border transition-all duration-200 ${
+        isOver
+          ? "bg-blue-500/15 border-blue-500/80 ring-2 ring-blue-500/40 shadow-lg scale-[1.01]"
+          : canDrop
+          ? "border-blue-400/40 bg-slate-100/90 dark:bg-slate-900/40"
+          : "border-slate-200/70 dark:border-slate-800/80"
       }`}
     >
       <div className="mb-3 flex w-full items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/80">
@@ -181,9 +188,9 @@ const TaskColumn = ({
         </button>
       </div>
 
-      <div className="space-y-3 min-h-[150px]">
+      <div className="space-y-3 min-h-[200px]">
         {columnTasks.map((task) => (
-          <TaskItem key={task.id} task={task} onOpenDetail={onOpenDetail} />
+          <TaskItem key={task.id} task={task} onOpenDetail={onOpenDetail} onMoveTask={moveTask} />
         ))}
       </div>
     </div>
@@ -193,9 +200,10 @@ const TaskColumn = ({
 type TaskItemProps = {
   task: TaskType;
   onOpenDetail: (task: TaskType) => void;
+  onMoveTask: (taskId: number, status: string) => void;
 };
 
-const TaskItem = ({ task, onOpenDetail }: TaskItemProps) => {
+const TaskItem = ({ task, onOpenDetail, onMoveTask }: TaskItemProps) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
@@ -224,20 +232,22 @@ const TaskItem = ({ task, onOpenDetail }: TaskItemProps) => {
         drag(instance);
       }}
       onClick={() => onOpenDetail(task)}
-      className={`group cursor-pointer rounded-xl bg-white p-4 shadow-sm border border-slate-200 dark:border-slate-800 dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:shadow-md hover:border-blue-500/50 transition-all duration-150 ${
-        isDragging ? "opacity-40" : "opacity-100"
+      className={`group cursor-grab active:cursor-grabbing rounded-xl bg-white p-4 shadow-sm border border-slate-200 dark:border-slate-800 dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:shadow-md hover:border-blue-500/60 transition-all duration-150 ${
+        isDragging ? "opacity-30 scale-95" : "opacity-100 hover:-translate-y-0.5"
       }`}
     >
-      {/* Key & Priority */}
+      {/* Key & Priority Header */}
       <div className="mb-2 flex items-center justify-between">
         <span className="rounded-md bg-blue-600/10 border border-blue-500/20 px-2 py-0.5 font-mono text-[11px] font-bold text-blue-600 dark:text-blue-400">
           {issueKey}
         </span>
-        {task.priority && (
-          <span className="rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300">
-            {task.priority}
-          </span>
-        )}
+        <div className="flex items-center gap-1.5">
+          {task.priority && (
+            <span className="rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300">
+              {task.priority}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Title */}

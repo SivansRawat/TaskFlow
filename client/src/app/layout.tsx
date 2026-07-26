@@ -6,10 +6,12 @@ import DashboardWrapper from "./dashboardWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TaskFlow | Project & Task Management",
-  description: "Streamline your team's workflow, projects, and tasks with TaskFlow.",
+  title: "TaskFlow | Enterprise Project & Task Suite",
+  description: "Streamline your team's workflow, agile sprints, and project tasks with TaskFlow.",
   icons: {
-    icon: "/logo.svg",
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
     shortcut: "/logo.svg",
     apple: "/logo.svg",
   },
