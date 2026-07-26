@@ -39,23 +39,44 @@ export const createTask = async (
     projectId,
     authorUserId,
     assignedUserId,
+    issueKey,
+    subtasks,
   } = req.body;
   try {
+    const totalCount = await prisma.task.count();
+    const generatedKey = issueKey || `TF-${101 + totalCount}`;
+
     const newTask = await prisma.task.create({
       data: {
         title,
         description,
-        status,
-        priority,
+        status: status || "To Do",
+        priority: priority || "Backlog",
         tags,
         startDate,
         dueDate,
-        points,
-        projectId,
-        authorUserId,
-        assignedUserId,
+        points: points ? Number(points) : null,
+        projectId: Number(projectId),
+        authorUserId: Number(authorUserId),
+        assignedUserId: assignedUserId ? Number(assignedUserId) : null,
+        issueKey: generatedKey,
+        subtasks,
+      },
+      include: {
+        author: true,
+        assignee: true,
       },
     });
+
+    // Log Activity
+    await prisma.activity.create({
+      data: {
+        taskId: newTask.id,
+        userId: Number(authorUserId),
+        action: `created task ${generatedKey}`,
+      },
+    });
+
     res.status(201).json(newTask);
   } catch (error: any) {
     res
@@ -69,19 +90,84 @@ export const updateTaskStatus = async (
   res: Response
 ): Promise<void> => {
   const { taskId } = req.params;
-  const { status } = req.body;
+  const { status, userId } = req.body;
   try {
+    const id = Number(taskId);
     const updatedTask = await prisma.task.update({
-      where: {
-        id: Number(taskId),
-      },
+      where: { id },
+      data: { status },
+      include: { author: true, assignee: true },
+    });
+
+    await prisma.activity.create({
       data: {
-        status: status,
+        taskId: id,
+        userId: userId ? Number(userId) : null,
+        action: `updated status to ${status}`,
       },
     });
+
     res.json(updatedTask);
   } catch (error: any) {
     res.status(500).json({ message: `Error updating task: ${error.message}` });
+  }
+};
+
+export const updateTask = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { taskId } = req.params;
+  const {
+    title,
+    description,
+    status,
+    priority,
+    tags,
+    startDate,
+    dueDate,
+    points,
+    assignedUserId,
+    subtasks,
+    userId,
+  } = req.body;
+  try {
+    const id = Number(taskId);
+    const updatedTask = await prisma.task.update({
+      where: { id },
+      data: {
+        ...(title !== undefined && { title }),
+        ...(description !== undefined && { description }),
+        ...(status !== undefined && { status }),
+        ...(priority !== undefined && { priority }),
+        ...(tags !== undefined && { tags }),
+        ...(startDate !== undefined && { startDate }),
+        ...(dueDate !== undefined && { dueDate }),
+        ...(points !== undefined && { points: points ? Number(points) : null }),
+        ...(assignedUserId !== undefined && {
+          assignedUserId: assignedUserId ? Number(assignedUserId) : null,
+        }),
+        ...(subtasks !== undefined && { subtasks }),
+      },
+      include: {
+        author: true,
+        assignee: true,
+        comments: { include: { user: true } },
+        attachments: true,
+      },
+    });
+
+    await prisma.activity.create({
+      data: {
+        taskId: id,
+        userId: userId ? Number(userId) : null,
+        action: `updated task details`,
+      },
+    });
+
+    res.json(updatedTask);
+  } catch (error: any) {
+    res.status(500).json({ message: `Error updating task details: ${error.message}` });
   }
 };
 

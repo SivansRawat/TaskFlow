@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "issueKey": "TF-101",
     "title": "Design Glassmorphism Dashboard UI",
     "description": "Create modern dark theme layouts with glow effects and responsive cards.",
     "status": "Work In Progress",
@@ -11,10 +12,12 @@
     "points": 8,
     "projectId": 1,
     "authorUserId": 1,
-    "assignedUserId": 2
+    "assignedUserId": 2,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Create color tokens\",\"completed\":true},{\"id\":\"s2\",\"title\":\"Build metric widgets\",\"completed\":true},{\"id\":\"s3\",\"title\":\"Add responsive grid breakpoints\",\"completed\":false}]"
   },
   {
     "id": 2,
+    "issueKey": "TF-102",
     "title": "Implement Recharts Analytics Suite",
     "description": "Integrate Task Priority distribution bar charts and Project Completion pie charts.",
     "status": "Completed",
@@ -25,10 +28,12 @@
     "points": 5,
     "projectId": 1,
     "authorUserId": 1,
-    "assignedUserId": 3
+    "assignedUserId": 3,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Configure Recharts BarChart\",\"completed\":true},{\"id\":\"s2\",\"title\":\"Add custom Tooltip component\",\"completed\":true}]"
   },
   {
     "id": 3,
+    "issueKey": "TF-103",
     "title": "Refactor RTK Query User Caching",
     "description": "Make getAuthUser query reactive to activeSub changes without full page reloads.",
     "status": "Completed",
@@ -39,10 +44,12 @@
     "points": 5,
     "projectId": 1,
     "authorUserId": 2,
-    "assignedUserId": 1
+    "assignedUserId": 1,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Pass activeSub parameter\",\"completed\":true},{\"id\":\"s2\",\"title\":\"Trigger refetch on login\",\"completed\":true}]"
   },
   {
     "id": 4,
+    "issueKey": "TF-104",
     "title": "AI Symptom Triage Integration",
     "description": "Connect Gemini 1.5 Flash API for natural language medical specialty categorization.",
     "status": "Work In Progress",
@@ -53,10 +60,12 @@
     "points": 13,
     "projectId": 2,
     "authorUserId": 3,
-    "assignedUserId": 4
+    "assignedUserId": 4,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Setup Gemini 1.5 Flash SDK\",\"completed\":true},{\"id\":\"s2\",\"title\":\"Implement specialty classifier prompt\",\"completed\":false}]"
   },
   {
     "id": 5,
+    "issueKey": "TF-105",
     "title": "Vonage Video Consultation Room",
     "description": "Setup WebRTC HD video stream with local camera fallback for telemedicine.",
     "status": "Under Review",
@@ -67,10 +76,12 @@
     "points": 8,
     "projectId": 2,
     "authorUserId": 4,
-    "assignedUserId": 5
+    "assignedUserId": 5,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Generate Vonage session tokens\",\"completed\":true},{\"id\":\"s2\",\"title\":\"Add local media device stream fallback\",\"completed\":true}]"
   },
   {
     "id": 6,
+    "issueKey": "TF-106",
     "title": "Neon PostgreSQL Migration",
     "description": "Migrate database schema to Neon Serverless PostgreSQL with pooler connection strings.",
     "status": "Completed",
@@ -81,10 +92,12 @@
     "points": 5,
     "projectId": 3,
     "authorUserId": 5,
-    "assignedUserId": 6
+    "assignedUserId": 6,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Execute npx prisma db push\",\"completed\":true}]"
   },
   {
     "id": 7,
+    "issueKey": "TF-107",
     "title": "Render Express Server Deployment",
     "description": "Configure Render web service environment variables & auto-deploy scripts.",
     "status": "Completed",
@@ -95,10 +108,12 @@
     "points": 3,
     "projectId": 3,
     "authorUserId": 6,
-    "assignedUserId": 7
+    "assignedUserId": 7,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Set node dist/src/index.js start command\",\"completed\":true}]"
   },
   {
     "id": 8,
+    "issueKey": "TF-108",
     "title": "React Native Navigation Shell",
     "description": "Setup Expo router, tab navigation and push notification tokens.",
     "status": "To Do",
@@ -109,10 +124,12 @@
     "points": 8,
     "projectId": 4,
     "authorUserId": 7,
-    "assignedUserId": 8
+    "assignedUserId": 8,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Initialize Expo workspace\",\"completed\":false}]"
   },
   {
     "id": 9,
+    "issueKey": "TF-109",
     "title": "Offline Task Sync Storage",
     "description": "Implement Async Storage offline queue and optimistic UI reconciliation.",
     "status": "Backlog",
@@ -123,10 +140,12 @@
     "points": 5,
     "projectId": 4,
     "authorUserId": 8,
-    "assignedUserId": 9
+    "assignedUserId": 9,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Build sync queue manager\",\"completed\":false}]"
   },
   {
     "id": 10,
+    "issueKey": "TF-110",
     "title": "Dark Mode Color Palette Tokens",
     "description": "Standardize slate-900, slate-950, and blue-600 color variables across Tailwind CSS.",
     "status": "Completed",
@@ -137,10 +156,12 @@
     "points": 3,
     "projectId": 5,
     "authorUserId": 9,
-    "assignedUserId": 10
+    "assignedUserId": 10,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Audit Tailwind CSS variables\",\"completed\":true}]"
   },
   {
     "id": 11,
+    "issueKey": "TF-111",
     "title": "Gantt Timeline Custom Overrides",
     "description": "Add dark theme CSS rules for gantt-task-react grid lines, date headers & task bars.",
     "status": "Completed",
@@ -151,10 +172,12 @@
     "points": 5,
     "projectId": 5,
     "authorUserId": 10,
-    "assignedUserId": 1
+    "assignedUserId": 1,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Style Gantt day/week/month headers\",\"completed\":true}]"
   },
   {
     "id": 12,
+    "issueKey": "TF-112",
     "title": "Bcrypt Password Hashing Engine",
     "description": "Add bcrypt password comparison and fallback authentication in user controller.",
     "status": "Completed",
@@ -165,10 +188,12 @@
     "points": 5,
     "projectId": 6,
     "authorUserId": 1,
-    "assignedUserId": 2
+    "assignedUserId": 2,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Integrate bcryptjs library\",\"completed\":true}]"
   },
   {
     "id": 13,
+    "issueKey": "TF-113",
     "title": "Express Parameter NaN Validation",
     "description": "Add numeric sanity checks and route parameter sanitization middleware.",
     "status": "Completed",
@@ -179,10 +204,12 @@
     "points": 3,
     "projectId": 6,
     "authorUserId": 2,
-    "assignedUserId": 3
+    "assignedUserId": 3,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Add isNaN checks on route params\",\"completed\":true}]"
   },
   {
     "id": 14,
+    "issueKey": "TF-114",
     "title": "GitHub Actions CI Build Workflow",
     "description": "Configure automated typechecking and Next.js production build checks on PR push.",
     "status": "Work In Progress",
@@ -193,10 +220,12 @@
     "points": 5,
     "projectId": 7,
     "authorUserId": 3,
-    "assignedUserId": 4
+    "assignedUserId": 4,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Write GitHub workflow main.yml\",\"completed\":false}]"
   },
   {
     "id": 15,
+    "issueKey": "TF-115",
     "title": "Elasticsearch Full-Text Indexing",
     "description": "Index task titles, descriptions, and user profile names for fast global search.",
     "status": "To Do",
@@ -207,10 +236,12 @@
     "points": 8,
     "projectId": 8,
     "authorUserId": 4,
-    "assignedUserId": 5
+    "assignedUserId": 5,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Define search mapping schema\",\"completed\":false}]"
   },
   {
     "id": 16,
+    "issueKey": "TF-116",
     "title": "MUI DataGrid Export & Filters",
     "description": "Configure CSV export and advanced column filtering on assigned tasks table.",
     "status": "Work In Progress",
@@ -221,6 +252,7 @@
     "points": 3,
     "projectId": 1,
     "authorUserId": 5,
-    "assignedUserId": 6
+    "assignedUserId": 6,
+    "subtasks": "[{\"id\":\"s1\",\"title\":\"Enable DataGrid CSV toolbar\",\"completed\":true}]"
   }
 ]
