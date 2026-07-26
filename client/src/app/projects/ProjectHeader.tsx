@@ -25,63 +25,47 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
         isOpen={isModalNewProjectOpen}
         onClose={() => setIsModalNewProjectOpen(false)}
       />
-      <div className="pb-6 pt-6 lg:pb-4 lg:pt-8">
+      <div className="pb-4 pt-6">
         <Header
-          name="Product Design Development"
+          name="Project Workspace"
           buttonComponent={
             <button
-              className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-xs font-bold text-white shadow-md hover:from-blue-500 hover:to-indigo-500 transition"
               onClick={() => setIsModalNewProjectOpen(true)}
             >
-              <PlusSquare className="mr-2 h-5 w-5" /> New Boards
+              <PlusSquare className="h-4 w-4" /> New Project
             </button>
           }
         />
       </div>
 
       {/* TABS */}
-      <div className="flex flex-wrap-reverse gap-2 border-y border-gray-200 pb-[8px] pt-2 dark:border-stroke-dark md:items-center">
-        <div className="flex flex-1 items-center gap-2 md:gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 pb-3 dark:border-slate-800/80">
+        <div className="flex flex-wrap items-center gap-2">
           <TabButton
             name="Board"
-            icon={<Grid3x3 className="h-5 w-5" />}
+            icon={<Grid3x3 className="h-4 w-4" />}
             setActiveTab={setActiveTab}
             activeTab={activeTab}
           />
           <TabButton
             name="List"
-            icon={<List className="h-5 w-5" />}
+            icon={<List className="h-4 w-4" />}
             setActiveTab={setActiveTab}
             activeTab={activeTab}
           />
           <TabButton
             name="Timeline"
-            icon={<Clock className="h-5 w-5" />}
+            icon={<Clock className="h-4 w-4" />}
             setActiveTab={setActiveTab}
             activeTab={activeTab}
           />
           <TabButton
             name="Table"
-            icon={<Table className="h-5 w-5" />}
+            icon={<Table className="h-4 w-4" />}
             setActiveTab={setActiveTab}
             activeTab={activeTab}
           />
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300">
-            <Filter className="h-5 w-5" />
-          </button>
-          <button className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300">
-            <Share2 className="h-5 w-5" />
-          </button>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search Task"
-              className="rounded-md border py-1 pl-10 pr-4 focus:outline-none dark:border-dark-secondary dark:bg-dark-secondary dark:text-white"
-            />
-            <Grid3x3 className="absolute left-3 top-2 h-4 w-4 text-gray-400 dark:text-neutral-500" />
-          </div>
         </div>
       </div>
     </div>
@@ -100,8 +84,10 @@ const TabButton = ({ name, icon, setActiveTab, activeTab }: TabButtonProps) => {
 
   return (
     <button
-      className={`relative flex items-center gap-2 px-1 py-2 text-gray-500 after:absolute after:-bottom-[9px] after:left-0 after:h-[1px] after:w-full hover:text-blue-600 dark:text-neutral-500 dark:hover:text-white sm:px-2 lg:px-4 ${
-        isActive ? "text-blue-600 after:bg-blue-600 dark:text-white" : ""
+      className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-150 ${
+        isActive
+          ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+          : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-900/80 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
       }`}
       onClick={() => setActiveTab(name)}
     >

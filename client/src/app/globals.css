@@ -14,9 +14,22 @@ body,
 .app {
   height: 100%;
   width: 100%;
-  @apply text-sm;
-  @apply bg-white;
-  @apply dark:bg-black;
+  @apply text-sm font-sans antialiased;
+  @apply bg-slate-50 text-slate-900;
+  @apply dark:bg-slate-950 dark:text-slate-100;
+}
+
+/* Glassmorphism & Glow Utilities */
+.glass-panel {
+  @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm;
+}
+
+.glass-card {
+  @apply bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/70 dark:border-slate-800/70 shadow-sm hover:shadow-md transition-all duration-200;
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px -5px rgba(37, 99, 235, 0.3);
 }
 
 /* TIMELINE STYLING OVERRIDES */
@@ -70,6 +83,6 @@ body,
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-neutral-700 rounded-full;
+  @apply bg-slate-300 dark:bg-slate-800 rounded-full hover:bg-slate-400 dark:hover:bg-slate-700 transition;
 }
 

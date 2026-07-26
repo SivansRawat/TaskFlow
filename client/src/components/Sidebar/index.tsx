@@ -43,8 +43,8 @@ const Sidebar = () => {
   const { data: currentUser } = useGetAuthUserQuery(undefined);
   const currentUserDetails = currentUser?.userDetails;
 
-  const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl
-    transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white
+  const sidebarClassNames = `fixed flex flex-col h-full justify-between shadow-xl
+    transition-all duration-300 z-50 overflow-y-auto bg-white border-r border-slate-200/80 dark:border-slate-800/80 dark:bg-slate-950
     ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}
   `;
 
@@ -54,40 +54,52 @@ const Sidebar = () => {
         isOpen={isModalNewProjectOpen}
         onClose={() => setIsModalNewProjectOpen(false)}
       />
-      <div className="flex h-[100%] w-full flex-col justify-start">
+      <div className="flex h-full w-full flex-col justify-start">
         {/* TOP LOGO */}
-        <div className="z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black">
-          <div className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-            <Logo size={32} />
-            <span>TASKFLOW</span>
+        <div className="z-50 flex min-h-[60px] w-64 items-center justify-between px-6 pt-4 dark:bg-slate-950">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 shadow-md shadow-blue-500/20 text-white">
+              <Logo size={24} />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-base font-black tracking-tight text-slate-900 dark:text-white font-mono">
+                TASKFLOW
+              </span>
+              <span className="text-[9px] font-bold text-blue-500 uppercase tracking-widest">
+                ENTERPRISE
+              </span>
+            </div>
           </div>
           {isSidebarCollapsed ? null : (
             <button
-              className="py-3"
+              className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white transition"
               onClick={() => {
                 dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
               }}
             >
-              <X className="h-6 w-6 text-gray-800 hover:text-gray-500 dark:text-white" />
+              <X className="h-5 w-5" />
             </button>
           )}
         </div>
+
         {/* ACTIVE TEAM / WORKSPACE BADGE */}
-        <div className="flex items-center gap-3 border-y border-gray-200 px-6 py-3.5 dark:border-gray-800 bg-gray-50/50 dark:bg-neutral-900/40">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-            <Users className="h-5 w-5" />
+        <div className="mx-4 my-4 flex items-center gap-3 rounded-xl border border-slate-200/80 bg-slate-50 p-3 dark:border-slate-800/80 dark:bg-slate-900/60 shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400">
+            <Users className="h-4 w-4" />
           </div>
           <div className="flex-1 overflow-hidden">
-            <h3 className="truncate text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300">
-              {currentUserDetails?.teamId ? "Active Team" : "Workspace"}
+            <h3 className="truncate text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              Workspace
             </h3>
-            <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
-              {projects && projects.length > 0 ? "Engineering Team" : "Personal Workspace"}
+            <p className="truncate text-xs font-bold text-slate-800 dark:text-slate-100">
+              Engineering Team
             </p>
           </div>
+          <span className="flex h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-500/30" />
         </div>
+
         {/* NAVBAR LINKS */}
-        <nav className="z-10 w-full">
+        <nav className="z-10 w-full space-y-0.5 px-3">
           <SidebarLink icon={Home} label="Home" href="/" />
           <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
           <SidebarLink icon={Search} label="Search" href="/search" />
@@ -97,51 +109,56 @@ const Sidebar = () => {
         </nav>
 
         {/* PROJECTS LINKS */}
-        <div className="flex w-full items-center justify-between px-8 py-3 text-gray-500">
+        <div className="mt-4 flex w-full items-center justify-between px-6 py-2">
           <button
             onClick={() => setShowProjects((prev) => !prev)}
-            className="flex items-center gap-2 font-semibold tracking-wider text-xs uppercase hover:text-gray-700 dark:hover:text-gray-300"
+            className="flex items-center gap-2 font-bold tracking-wider text-[11px] uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
           >
-            <span>Projects</span>
+            <span>Projects ({projects?.length || 0})</span>
             {showProjects ? (
-              <ChevronUp className="h-4 w-4" />
+              <ChevronUp className="h-3.5 w-3.5" />
             ) : (
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="h-3.5 w-3.5" />
             )}
           </button>
           <button
             onClick={() => setIsModalNewProjectOpen(true)}
-            className="rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white transition"
             title="Create New Project"
           >
             <Plus className="h-4 w-4" />
           </button>
         </div>
         {/* PROJECTS LIST */}
-        {showProjects &&
-          projects?.map((project) => (
-            <SidebarLink
-              key={project.id}
-              icon={Briefcase}
-              label={project.name}
-              href={`/projects/${project.id}`}
-            />
-          ))}
+        {showProjects && (
+          <div className="space-y-0.5 px-3">
+            {projects?.map((project) => (
+              <SidebarLink
+                key={project.id}
+                icon={Briefcase}
+                label={project.name}
+                href={`/projects/${project.id}`}
+              />
+            ))}
+          </div>
+        )}
 
         {/* PRIORITIES LINKS */}
-        <button
-          onClick={() => setShowPriority((prev) => !prev)}
-          className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
-        >
-          <span className="">Priority</span>
-          {showPriority ? (
-            <ChevronUp className="h-5 w-5" />
-          ) : (
-            <ChevronDown className="h-5 w-5" />
-          )}
-        </button>
+        <div className="mt-4 flex w-full items-center justify-between px-6 py-2">
+          <button
+            onClick={() => setShowPriority((prev) => !prev)}
+            className="flex items-center gap-2 font-bold tracking-wider text-[11px] uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
+          >
+            <span>Priority Views</span>
+            {showPriority ? (
+              <ChevronUp className="h-3.5 w-3.5" />
+            ) : (
+              <ChevronDown className="h-3.5 w-3.5" />
+            )}
+          </button>
+        </div>
         {showPriority && (
-          <>
+          <div className="space-y-0.5 px-3 pb-6">
             <SidebarLink
               icon={AlertCircle}
               label="Urgent"
@@ -163,37 +180,8 @@ const Sidebar = () => {
               label="Backlog"
               href="/priority/backlog"
             />
-          </>
-        )}
-      </div>
-      <div className="z-10 mt-32 flex w-full flex-col items-center gap-4 bg-white px-8 py-4 dark:bg-black md:hidden">
-        <div className="flex w-full items-center">
-          <div className="align-center flex h-9 w-9 justify-center">
-            {!!currentUserDetails?.profilePictureUrl ? (
-              <Image
-                src={`/${currentUserDetails?.profilePictureUrl}`}
-                alt={currentUserDetails?.username || "User Profile Picture"}
-                width={100}
-                height={50}
-                className="h-full rounded-full object-cover"
-              />
-            ) : (
-              <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />
-            )}
           </div>
-          <span className="mx-3 text-gray-800 dark:text-white font-semibold">
-            {currentUserDetails?.username}
-          </span>
-          <button
-            className="rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-blue-700"
-            onClick={() => {
-              localStorage.removeItem("taskflow_user_sub");
-              window.location.reload();
-            }}
-          >
-            Sign Out
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -213,18 +201,14 @@ const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   return (
     <Link href={href} className="w-full">
       <div
-        className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${
-          isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""
-        } justify-start px-8 py-3`}
+        className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-150 ${
+          isActive
+            ? "bg-blue-600/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400 font-bold"
+            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-900/60 dark:hover:text-slate-100"
+        }`}
       >
-        {isActive && (
-          <div className="absolute left-0 top-0 h-[100%] w-[5px] bg-blue-200" />
-        )}
-
-        <Icon className="h-6 w-6 text-gray-800 dark:text-gray-100" />
-        <span className={`font-medium text-gray-800 dark:text-gray-100`}>
-          {label}
-        </span>
+        <Icon className={`h-4 w-4 ${isActive ? "text-blue-600 dark:text-blue-400" : "text-slate-400"}`} />
+        <span className="truncate">{label}</span>
       </div>
     </Link>
   );
