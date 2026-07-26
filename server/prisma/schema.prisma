@@ -14,6 +14,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Organization {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique
+  users     User[]
+  projects  Project[]
+  teams     Team[]
+}
+
 model User {
   userId            Int     @id @default(autoincrement())
   cognitoId         String  @unique
@@ -22,6 +31,7 @@ model User {
   password          String?
   profilePictureUrl String?
   teamId            Int?
+  organizationId    Int?
 
   authoredTasks   Task[]           @relation("TaskAuthor")
   assignedTasks   Task[]           @relation("TaskAssignee")
@@ -30,6 +40,7 @@ model User {
   comments        Comment[]
   activities      Activity[]
   team            Team?            @relation(fields: [teamId], references: [id])
+  organization    Organization?    @relation(fields: [organizationId], references: [id])
 }
 
 model Team {
@@ -37,18 +48,22 @@ model Team {
   teamName             String
   productOwnerUserId   Int?
   projectManagerUserId Int?
+  organizationId       Int?
   projectTeams         ProjectTeam[]
   user                 User[]
+  organization         Organization? @relation(fields: [organizationId], references: [id])
 }
 
 model Project {
-  id           Int           @id @default(autoincrement())
-  name         String
-  description  String?
-  startDate    DateTime?
-  endDate      DateTime?
-  tasks        Task[]
-  projectTeams ProjectTeam[]
+  id             Int           @id @default(autoincrement())
+  name           String
+  description    String?
+  startDate      DateTime?
+  endDate        DateTime?
+  organizationId Int?
+  tasks          Task[]
+  projectTeams   ProjectTeam[]
+  organization   Organization? @relation(fields: [organizationId], references: [id])
 }
 
 model ProjectTeam {

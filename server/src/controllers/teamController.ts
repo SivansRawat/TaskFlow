@@ -4,8 +4,17 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const getTeams = async (req: Request, res: Response): Promise<void> => {
+  const { organizationId } = req.query;
   try {
-    const teams = await prisma.team.findMany();
+    const orgId = organizationId ? Number(organizationId) : 1;
+    const teams = await prisma.team.findMany({
+      where: {
+        OR: [
+          { organizationId: orgId },
+          { organizationId: null },
+        ],
+      },
+    });
 
     const teamsWithUsernames = await Promise.all(
       teams.map(async (team: any) => {

@@ -5,8 +5,16 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
+  const { organizationId } = req.query;
   try {
+    const orgId = organizationId ? Number(organizationId) : 1;
     const users = await prisma.user.findMany({
+      where: {
+        OR: [
+          { organizationId: orgId },
+          { organizationId: null },
+        ],
+      },
       select: {
         userId: true,
         cognitoId: true,
@@ -14,6 +22,8 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
         email: true,
         profilePictureUrl: true,
         teamId: true,
+        organizationId: true,
+        organization: true,
       },
     });
     res.json(users);
@@ -43,6 +53,8 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
         email: true,
         profilePictureUrl: true,
         teamId: true,
+        organizationId: true,
+        organization: true,
       },
     });
 

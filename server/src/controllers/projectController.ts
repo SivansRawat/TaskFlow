@@ -7,8 +7,17 @@ export const getProjects = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  const { organizationId } = req.query;
   try {
-    const projects = await prisma.project.findMany();
+    const orgId = organizationId ? Number(organizationId) : 1;
+    const projects = await prisma.project.findMany({
+      where: {
+        OR: [
+          { organizationId: orgId },
+          { organizationId: null },
+        ],
+      },
+    });
     res.json(projects);
   } catch (error: any) {
     res
