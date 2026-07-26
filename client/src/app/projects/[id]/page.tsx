@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProjectHeader from "@/app/projects/ProjectHeader";
 import Board from "../BoardView";
 import List from "../ListView";
@@ -14,8 +14,20 @@ type Props = {
 
 const Project = ({ params }: Props) => {
   const { id } = params;
-  const [activeTab, setActiveTab] = useState("Board");
+  const [activeTab, setActiveTabState] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
+
+  useEffect(() => {
+    const savedTab = localStorage.getItem("taskflow_project_active_tab");
+    if (savedTab && ["Board", "List", "Timeline", "Table"].includes(savedTab)) {
+      setActiveTabState(savedTab);
+    }
+  }, []);
+
+  const setActiveTab = (tabName: string) => {
+    setActiveTabState(tabName);
+    localStorage.setItem("taskflow_project_active_tab", tabName);
+  };
 
   return (
     <div>
