@@ -8,73 +8,148 @@
   box-sizing: border-box;
 }
 
+:root {
+  --background: #09090B;
+  --foreground: #FFFFFF;
+  --primary: #FBBF24;
+  --secondary: #F59E0B;
+  --tertiary: #A5FF2A;
+  --card: #18181B;
+  --border: rgba(255, 255, 255, 0.12);
+}
+
 html,
 body,
 #root,
 .app {
   height: 100%;
   width: 100%;
-  @apply text-sm font-sans antialiased;
-  @apply bg-slate-50 text-slate-900;
-  @apply dark:bg-slate-950 dark:text-slate-100;
+  background-color: #09090B !important;
+  color: #FFFFFF !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism & Glow Utilities */
+/* TYPOGRAPHY CLASSES */
+.text-display-lg {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: clamp(3rem, 8vw, 141.24px);
+  font-weight: 700;
+  line-height: clamp(2.8rem, 7.5vw, 120.054px);
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.text-body-md {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: -0.025em;
+}
+
+.text-label-md {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+}
+
+/* Glassmorphism & premium surfaces */
 .glass-panel {
-  @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm;
+  background: rgba(24, 24, 27, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .glass-card {
-  @apply bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/70 dark:border-slate-800/70 shadow-sm hover:shadow-md transition-all duration-200;
+  background: rgba(24, 24, 27, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 11px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glow-blue {
-  box-shadow: 0 0 20px -5px rgba(37, 99, 235, 0.3);
+.glass-card:hover {
+  border-color: rgba(251, 191, 36, 0.4);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
 }
 
-/* TIMELINE STYLING OVERRIDES */
+/* Gradient Border Shell */
+.gradient-border-shell {
+  padding: 1px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.2) 100%);
+  display: block;
+}
+
+.gradient-border-content {
+  background: #18181B;
+  border-radius: 11px;
+  width: 100%;
+  height: 100%;
+}
+
+/* TIMELINE STYLING OVERRIDES - DARK THEME ALWAYS */
 .timeline ._3_ygE {
-  @apply rounded-tl-md border border-r-0 border-gray-200 dark:border-neutral-800;
+  border-radius: 4px 0 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: none;
 }
 .timeline ._2eZzQ {
-  @apply border-gray-200 dark:border-neutral-800;
+  border-color: rgba(255, 255, 255, 0.12);
 }
 .timeline ._2dZTy {
-  @apply fill-white dark:fill-dark-secondary;
+  fill: #18181B;
 }
 .timeline ._2dZTy:nth-child(even) {
-  @apply fill-gray-50/80 dark:fill-neutral-900/60;
+  fill: rgba(9, 9, 11, 0.6);
 }
 .timeline ._35nLX {
-  @apply fill-white stroke-gray-200 dark:fill-dark-secondary dark:stroke-neutral-800;
+  fill: #18181B;
+  stroke: rgba(255, 255, 255, 0.12);
 }
 .timeline ._9w8d5 {
-  @apply fill-gray-800 font-semibold dark:fill-gray-100;
+  fill: #FFFFFF;
+  font-weight: 600;
 }
 .timeline ._34SS0 {
-  @apply bg-white text-gray-800 dark:bg-dark-secondary dark:text-gray-100 font-medium;
+  background: #18181B;
+  color: #FFFFFF;
+  font-weight: 500;
 }
 .timeline ._34SS0:nth-of-type(even) {
-  @apply bg-gray-50/80 dark:bg-neutral-900/60;
+  background: rgba(9, 9, 11, 0.6);
 }
 .timeline ._RuwuK,
 .timeline ._3rUKi,
 .timeline ._1rLuZ {
-  @apply stroke-gray-200 dark:stroke-neutral-800;
+  stroke: rgba(255, 255, 255, 0.12);
 }
 .timeline ._3ZbQT {
-  @apply border-l-0 border-gray-200 dark:border-neutral-800;
+  border-left: none;
+  border-color: rgba(255, 255, 255, 0.12);
 }
 .timeline ._3T42e {
-  @apply bg-white dark:bg-dark-bg;
+  background: #09090B;
 }
 .timeline ._29NTg {
-  @apply text-gray-600 dark:text-neutral-300 font-medium;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
 }
 .timeline text {
-  @apply fill-gray-800 dark:fill-gray-100 font-sans;
+  fill: #FFFFFF;
+  font-family: inherit;
 }
 
+/* CUSTOM SCROLLBARS */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -83,6 +158,57 @@ body,
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 dark:bg-slate-800 rounded-full hover:bg-slate-400 dark:hover:bg-slate-700 transition;
+  background: #27272A;
+  border-radius: 9999px;
+  transition: background 0.15s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FBBF24;
+}
+
+/* Recharts Customizations */
+.recharts-default-tooltip {
+  background-color: rgba(24, 24, 27, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(12px) !important;
+  color: #FFFFFF !important;
+}
+
+/* Material UI DataGrid overrides for the design system */
+.MuiDataGrid-root {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 11px !important;
+  background-color: rgba(24, 24, 27, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  color: #FFFFFF !important;
+  font-family: inherit !important;
+}
+
+.MuiDataGrid-columnHeaders {
+  background-color: #09090B !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.MuiDataGrid-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.MuiDataGrid-row:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+.MuiDataGrid-cell {
+  border-bottom: none !important;
+  color: #FFFFFF !important;
+}
+
+.MuiDataGrid-footerContainer {
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background-color: #09090B !important;
+}
+
+.MuiTablePagination-root {
+  color: #FFFFFF !important;
 }
 

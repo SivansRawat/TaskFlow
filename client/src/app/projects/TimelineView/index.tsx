@@ -54,45 +54,47 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
 
   if (isLoading) {
     return (
-      <div className="flex h-64 items-center justify-center p-6 text-sm font-semibold text-gray-500 dark:text-gray-400">
-        <Clock className="mr-2 h-4 w-4 animate-spin text-blue-600" />
-        Loading Project Timeline...
+      <div className="flex h-64 items-center justify-center p-6 text-sm font-semibold text-[#FBBF24]">
+        <div className="flex items-center gap-3 font-mono text-sm tracking-wide">
+          <Clock className="h-4 w-4 animate-spin text-[#FBBF24]" />
+          LOADING TIMELINE SCHEDULE...
+        </div>
       </div>
     );
   }
 
   if (error || !tasks) {
     return (
-      <div className="p-6 text-center text-red-500">
+      <div className="p-6 text-center text-red-400 font-semibold">
         An error occurred while fetching tasks for this timeline.
       </div>
     );
   }
 
   return (
-    <div className="px-4 xl:px-6 py-4">
+    <div className="px-4 xl:px-6 py-4 bg-transparent text-white">
       {/* Header & Controls */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-4">
         <div>
-          <h1 className="text-lg font-extrabold text-gray-900 dark:text-white">
+          <h1 className="text-lg font-bold text-white uppercase tracking-tight">
             Project Task Schedule
           </h1>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-[10px] font-bold text-white/50 uppercase tracking-wider font-mono">
             {tasks.length} total tasks scheduled across sprint timeline
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Pill View Switcher */}
-          <div className="flex items-center gap-1 rounded-lg bg-gray-100 p-1 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700">
+          <div className="flex items-center gap-1 rounded-md bg-[#09090B] p-1 border border-white/10">
             <button
               onClick={() =>
                 setDisplayOptions((prev) => ({ ...prev, viewMode: ViewMode.Day }))
               }
-              className={`rounded px-3 py-1 text-xs font-semibold transition ${
+              className={`rounded-md px-3 py-1 text-xs font-bold transition-all ${
                 displayOptions.viewMode === ViewMode.Day
-                  ? "bg-white text-blue-600 shadow dark:bg-neutral-700 dark:text-white"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                  ? "bg-[#FBBF24] text-black shadow"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
               }`}
             >
               Day
@@ -102,10 +104,10 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
               onClick={() =>
                 setDisplayOptions((prev) => ({ ...prev, viewMode: ViewMode.Week }))
               }
-              className={`rounded px-3 py-1 text-xs font-semibold transition ${
+              className={`rounded-md px-3 py-1 text-xs font-bold transition-all ${
                 displayOptions.viewMode === ViewMode.Week
-                  ? "bg-white text-blue-600 shadow dark:bg-neutral-700 dark:text-white"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                  ? "bg-[#FBBF24] text-black shadow"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
               }`}
             >
               Week
@@ -115,10 +117,10 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
               onClick={() =>
                 setDisplayOptions((prev) => ({ ...prev, viewMode: ViewMode.Month }))
               }
-              className={`rounded px-3 py-1 text-xs font-semibold transition ${
+              className={`rounded-md px-3 py-1 text-xs font-bold transition-all ${
                 displayOptions.viewMode === ViewMode.Month
-                  ? "bg-white text-blue-600 shadow dark:bg-neutral-700 dark:text-white"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                  ? "bg-[#FBBF24] text-black shadow"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
               }`}
             >
               Month
@@ -127,7 +129,7 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
 
           <button
             onClick={() => setIsModalNewTaskOpen(true)}
-            className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-bold text-white shadow hover:bg-blue-700 transition"
+            className="flex items-center gap-1.5 rounded-md bg-[#FBBF24] px-4 py-2 text-xs font-bold text-black hover:bg-[#F59E0B] transition-colors"
           >
             <Plus className="h-4 w-4" /> Add Task
           </button>
@@ -135,7 +137,7 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
       </div>
 
       {/* Gantt Container */}
-      <div className="overflow-hidden rounded-xl bg-white shadow-sm dark:bg-dark-secondary border border-gray-200/80 dark:border-neutral-800">
+      <div className="overflow-hidden rounded-lg border border-white/12 bg-[#18181B]/75 backdrop-blur-md shadow-lg">
         {ganttTasks.length > 0 ? (
           <div className="timeline p-2">
             <Gantt
@@ -149,23 +151,23 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
                   : 65
               }
               listCellWidth="150px"
-              barBackgroundColor={isDarkMode ? "#3B82F6" : "#2563EB"}
-              barBackgroundSelectedColor={isDarkMode ? "#2563EB" : "#1D4ED8"}
-              barProgressColor={isDarkMode ? "#60A5FA" : "#93C5FD"}
-              barProgressSelectedColor={isDarkMode ? "#93C5FD" : "#BFDBFE"}
+              barBackgroundColor="#FBBF24"
+              barBackgroundSelectedColor="#FBBF24"
+              barProgressColor="#A5FF2A"
+              barProgressSelectedColor="#A5FF2A"
             />
           </div>
         ) : (
-          <div className="p-10 text-center">
-            <Calendar className="mx-auto h-10 w-10 text-gray-300 dark:text-neutral-600" />
-            <h3 className="mt-2 text-sm font-bold text-gray-800 dark:text-white">
+          <div className="p-10 text-center backdrop-blur-md bg-transparent">
+            <Calendar className="mx-auto h-10 w-10 text-white/20" />
+            <h3 className="mt-2 text-sm font-bold text-white uppercase tracking-wider">
               No Tasks on Project Timeline
             </h3>
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-xs text-white/40">
               Click below to create your first task for this project schedule.
             </p>
             <button
-              className="mt-4 inline-flex items-center gap-1 rounded-lg bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 transition"
+              className="mt-4 inline-flex items-center gap-1 rounded-md bg-[#FBBF24] px-4 py-2 text-xs font-bold text-black hover:bg-[#F59E0B] transition-colors"
               onClick={() => setIsModalNewTaskOpen(true)}
             >
               <Plus className="h-4 w-4" /> Add New Task

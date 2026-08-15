@@ -67,10 +67,10 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   };
 
   const selectStyles =
-    "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+    "mb-4 block w-full rounded-md border border-white/12 bg-[#09090B] p-2 text-xs font-semibold text-white focus:border-[#FBBF24] focus:outline-none transition";
 
   const inputStyles =
-    "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+    "w-full rounded-md border border-white/12 bg-[#09090B] p-2 text-xs font-semibold text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition";
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} name="Create New Task">
@@ -81,74 +81,95 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
           handleSubmit();
         }}
       >
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <textarea
-          className={inputStyles}
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
-          <select
-            className={selectStyles}
-            value={status}
-            onChange={(e) =>
-              setStatus(Status[e.target.value as keyof typeof Status])
-            }
-          >
-            <option value="">Select Status</option>
-            <option value={Status.ToDo}>To Do</option>
-            <option value={Status.WorkInProgress}>Work In Progress</option>
-            <option value={Status.UnderReview}>Under Review</option>
-            <option value={Status.Completed}>Completed</option>
-          </select>
-          <select
-            className={selectStyles}
-            value={priority}
-            onChange={(e) =>
-              setPriority(Priority[e.target.value as keyof typeof Priority])
-            }
-          >
-            <option value="">Select Priority</option>
-            <option value={Priority.Urgent}>Urgent</option>
-            <option value={Priority.High}>High</option>
-            <option value={Priority.Medium}>Medium</option>
-            <option value={Priority.Low}>Low</option>
-            <option value={Priority.Backlog}>Backlog</option>
-          </select>
-        </div>
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="Tags (comma separated)"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-        />
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
+        <div>
+          <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Title</label>
           <input
-            type="date"
+            type="text"
             className={inputStyles}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
-          <input
-            type="date"
+        </div>
+        <div>
+          <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Description</label>
+          <textarea
             className={inputStyles}
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
+          <div>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Status</label>
+            <select
+              className={selectStyles}
+              value={status}
+              onChange={(e) =>
+                setStatus(Status[e.target.value as keyof typeof Status])
+              }
+            >
+              <option value="">Select Status</option>
+              <option value={Status.ToDo}>To Do</option>
+              <option value={Status.WorkInProgress}>Work In Progress</option>
+              <option value={Status.UnderReview}>Under Review</option>
+              <option value={Status.Completed}>Completed</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Priority</label>
+            <select
+              className={selectStyles}
+              value={priority}
+              onChange={(e) =>
+                setPriority(Priority[e.target.value as keyof typeof Priority])
+              }
+            >
+              <option value="">Select Priority</option>
+              <option value={Priority.Urgent}>Urgent</option>
+              <option value={Priority.High}>High</option>
+              <option value={Priority.Medium}>Medium</option>
+              <option value={Priority.Low}>Low</option>
+              <option value={Priority.Backlog}>Backlog</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Tags</label>
+          <input
+            type="text"
+            className={inputStyles}
+            placeholder="Tags (comma separated)"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
           />
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
           <div>
-            <label className="mb-1 block text-xs font-semibold text-gray-500 dark:text-gray-300">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Start Date</label>
+            <input
+              type="date"
+              className={inputStyles}
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Due Date</label>
+            <input
+              type="date"
+              className={inputStyles}
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
+          <div>
+            <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">
               Author
             </label>
             <select
@@ -164,7 +185,7 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-gray-500 dark:text-gray-300">
+            <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">
               Assignee
             </label>
             <select
@@ -183,17 +204,20 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
         </div>
 
         {id === null && (
-          <input
-            type="text"
-            className={inputStyles}
-            placeholder="ProjectId"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-          />
+          <div>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Project ID</label>
+            <input
+              type="text"
+              className={inputStyles}
+              placeholder="ProjectId"
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+            />
+          </div>
         )}
         <button
           type="submit"
-          className={`focus-offset-2 mt-4 flex w-full justify-center rounded-md border border-transparent bg-blue-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+          className={`mt-4 flex w-full justify-center rounded-md bg-[#FBBF24] px-4 py-2.5 text-xs font-bold text-black hover:bg-[#F59E0B] focus:outline-none transition ${
             !isFormValid() || isLoading ? "cursor-not-allowed opacity-50" : ""
           }`}
           disabled={!isFormValid() || isLoading}

@@ -62,27 +62,27 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
       />
 
       {/* Jira Board Filter & Action Toolbar */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-4 pt-2">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-4 pt-2 text-white">
         <div className="flex flex-wrap items-center gap-3">
           {/* Search Box */}
           <div className="relative min-w-[220px]">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-white/40" />
             <input
               type="text"
               placeholder="Search tasks or TF-101 key..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 bg-white py-2 pl-9 pr-3 text-xs text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-800 dark:bg-slate-900 dark:text-white transition"
+              className="w-full rounded-md border border-white/12 bg-[#18181B] py-2 pl-9 pr-3 text-xs text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition"
             />
           </div>
 
           {/* Priority Filter */}
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-slate-400" />
+            <Filter className="h-4 w-4 text-white/40" />
             <select
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
-              className="rounded-xl border border-slate-300 bg-white p-2 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 focus:border-blue-500 focus:outline-none transition"
+              className="rounded-md border border-white/12 bg-[#18181B] p-2 text-xs font-bold text-white focus:border-[#FBBF24] focus:outline-none transition"
             >
               <option value="ALL">All Priorities</option>
               <option value="Urgent">🔥 Urgent</option>
@@ -97,7 +97,7 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
         {/* Create Task Button */}
         <button
           onClick={() => setIsModalNewTaskOpen(true)}
-          className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow hover:bg-blue-700 transition"
+          className="flex items-center gap-2 rounded-md bg-[#FBBF24] px-4 py-2 text-xs font-bold text-black hover:bg-[#F59E0B] transition-colors animate-pulse-subtle"
         >
           <Plus className="h-4 w-4" /> Create Issue
         </button>
@@ -148,10 +148,10 @@ const TaskColumn = ({
   const columnTasks = tasks.filter((task) => task.status === status);
 
   const statusColor: Record<string, string> = {
-    "To Do": "#2563EB",
-    "Work In Progress": "#059669",
-    "Under Review": "#D97706",
-    Completed: "#4B5563",
+    "To Do": "#FBBF24",
+    "Work In Progress": "#3B82F6",
+    "Under Review": "#F59E0B",
+    Completed: "#A5FF2A",
   };
 
   return (
@@ -159,29 +159,29 @@ const TaskColumn = ({
       ref={(instance) => {
         drop(instance);
       }}
-      className={`rounded-2xl p-3 bg-slate-100/80 dark:bg-slate-950/80 border transition-all duration-200 ${
+      className={`rounded-lg p-3 bg-[#18181B]/50 border transition-all duration-200 ${
         isOver
-          ? "bg-blue-500/15 border-blue-500/80 ring-2 ring-blue-500/40 shadow-lg scale-[1.01]"
+          ? "bg-[#FBBF24]/5 border-[#FBBF24]/50 ring-2 ring-[#FBBF24]/20 shadow-lg scale-[1.01]"
           : canDrop
-          ? "border-blue-400/40 bg-slate-100/90 dark:bg-slate-900/40"
-          : "border-slate-200/70 dark:border-slate-800/80"
+          ? "border-[#FBBF24]/20 bg-[#18181B]/75"
+          : "border-white/12"
       }`}
     >
-      <div className="mb-3 flex w-full items-center justify-between rounded-xl bg-white px-4 py-3 shadow-sm dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/80">
+      <div className="mb-3 flex w-full items-center justify-between rounded-md bg-[#18181B] px-4 py-3 border border-white/12">
         <div className="flex items-center gap-2">
           <div
-            className="h-3 w-3 rounded-full"
+            className="h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: statusColor[status] }}
           />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-white">
             {status}
           </h3>
-          <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-xs font-extrabold text-slate-600 dark:text-slate-300">
+          <span className="rounded-sm border border-white/10 bg-white/5 px-2 py-0.5 text-xs font-extrabold text-white/70 font-mono">
             {columnTasks.length}
           </span>
         </div>
         <button
-          className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white transition"
+          className="rounded-md p-1 text-white/40 hover:bg-white/5 hover:text-white transition"
           onClick={() => setIsModalNewTaskOpen(true)}
         >
           <Plus className="h-4 w-4" />
@@ -232,18 +232,18 @@ const TaskItem = ({ task, onOpenDetail, onMoveTask }: TaskItemProps) => {
         drag(instance);
       }}
       onClick={() => onOpenDetail(task)}
-      className={`group cursor-grab active:cursor-grabbing rounded-xl bg-white p-4 shadow-sm border border-slate-200 dark:border-slate-800 dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:shadow-md hover:border-blue-500/60 transition-all duration-150 ${
+      className={`group cursor-grab active:cursor-grabbing rounded-lg bg-[#18181B] p-4 border border-white/12 text-white hover:border-[#FBBF24]/30 hover:scale-[1.01] transition-all duration-150 ${
         isDragging ? "opacity-30 scale-95" : "opacity-100 hover:-translate-y-0.5"
       }`}
     >
       {/* Key & Priority Header */}
       <div className="mb-2 flex items-center justify-between">
-        <span className="rounded-md bg-blue-600/10 border border-blue-500/20 px-2 py-0.5 font-mono text-[11px] font-bold text-blue-600 dark:text-blue-400">
+        <span className="rounded-sm bg-[#FBBF24]/10 border border-[#FBBF24]/20 px-2 py-0.5 font-mono text-[10px] font-bold text-[#FBBF24]">
           {issueKey}
         </span>
         <div className="flex items-center gap-1.5">
           {task.priority && (
-            <span className="rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300">
+            <span className="rounded-sm bg-white/5 border border-white/10 px-2 py-0.5 text-[10px] font-bold text-white/70 font-mono uppercase">
               {task.priority}
             </span>
           )}
@@ -251,34 +251,34 @@ const TaskItem = ({ task, onOpenDetail, onMoveTask }: TaskItemProps) => {
       </div>
 
       {/* Title */}
-      <h4 className="mb-1 text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition line-clamp-2">
+      <h4 className="mb-1 text-sm font-bold text-white group-hover:text-[#FBBF24] transition line-clamp-2">
         {task.title}
       </h4>
 
       {/* Description Snippet */}
       {task.description && (
-        <p className="mb-3 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+        <p className="mb-3 text-xs text-white/50 line-clamp-2">
           {task.description}
         </p>
       )}
 
       {/* Card Footer Info */}
-      <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5 dark:border-slate-800 text-[11px] text-slate-400">
+      <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-2.5 text-[10px] text-white/50">
         <div className="flex items-center gap-3">
           {subtaskCount > 0 && (
-            <span className="flex items-center gap-1 font-semibold text-slate-400">
-              <CheckSquare className="h-3.5 w-3.5 text-blue-400" />
+            <span className="flex items-center gap-1 font-semibold text-white/60">
+              <CheckSquare className="h-3.5 w-3.5 text-[#FBBF24]" />
               {completedSubtasks}/{subtaskCount}
             </span>
           )}
           {task.comments && task.comments.length > 0 && (
             <span className="flex items-center gap-1 font-semibold">
-              <MessageSquare className="h-3.5 w-3.5 text-slate-400" />
+              <MessageSquare className="h-3.5 w-3.5 text-white/40" />
               {task.comments.length}
             </span>
           )}
           {task.points !== undefined && task.points !== null && (
-            <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] font-extrabold text-slate-700 dark:text-slate-300">
+            <span className="rounded-sm bg-white/10 border border-white/10 px-2 py-0.5 text-[9px] font-bold text-white/80 font-mono">
               {task.points} pts
             </span>
           )}
@@ -291,10 +291,10 @@ const TaskItem = ({ task, onOpenDetail, onMoveTask }: TaskItemProps) => {
             alt={task.assignee.username}
             width={24}
             height={24}
-            className="h-6 w-6 rounded-full object-cover border border-slate-700"
+            className="h-6 w-6 rounded-full object-cover border border-white/10"
           />
         ) : (
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white uppercase">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#09090B] border border-white/12 text-[10px] font-bold text-white uppercase font-mono">
             {task.assignee?.username?.charAt(0) || "U"}
           </span>
         )}

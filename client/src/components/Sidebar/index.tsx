@@ -43,8 +43,8 @@ const Sidebar = () => {
   const { data: currentUser } = useGetAuthUserQuery(undefined);
   const currentUserDetails = currentUser?.userDetails;
 
-  const sidebarClassNames = `fixed flex flex-col h-full justify-between shadow-xl
-    transition-all duration-300 z-50 overflow-y-auto bg-white border-r border-slate-200/80 dark:border-slate-800/80 dark:bg-slate-950
+  const sidebarClassNames = `fixed flex flex-col h-full justify-between
+    transition-all duration-300 z-50 overflow-y-auto bg-[#09090B]/90 backdrop-blur-md border-r border-white/12
     ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}
   `;
 
@@ -56,46 +56,46 @@ const Sidebar = () => {
       />
       <div className="flex h-full w-full flex-col justify-start">
         {/* TOP LOGO */}
-        <div className="z-50 flex min-h-[60px] w-64 items-center justify-between px-6 pt-4 dark:bg-slate-950">
+        <div className="z-50 flex min-h-[60px] w-64 items-center justify-between px-6 pt-4 bg-transparent">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 shadow-md shadow-blue-500/20 text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#18181B] border border-white/12 text-white">
               <Logo size={24} />
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-black tracking-tight text-slate-900 dark:text-white font-mono">
+              <span className="text-sm font-bold tracking-wider text-white font-mono">
                 TASKFLOW
               </span>
-              <span className="text-[9px] font-bold text-blue-500 uppercase tracking-widest">
-                ENTERPRISE
+              <span className="text-[8px] font-bold text-[#FBBF24] uppercase tracking-widest font-mono">
+                OPERATIONAL
               </span>
             </div>
           </div>
           {isSidebarCollapsed ? null : (
             <button
-              className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white transition"
+              className="rounded-md p-1.5 text-white/50 hover:bg-white/10 hover:text-white transition-colors"
               onClick={() => {
                 dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
               }}
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
           )}
         </div>
 
         {/* ACTIVE TEAM / WORKSPACE BADGE */}
-        <div className="mx-4 my-4 flex items-center gap-3 rounded-xl border border-slate-200/80 bg-slate-50 p-3 dark:border-slate-800/80 dark:bg-slate-900/60 shadow-sm">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400">
+        <div className="mx-4 my-4 flex items-center gap-3 rounded-md border border-white/10 bg-[#18181B]/60 p-3 shadow-inner">
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#FBBF24]/10 border border-[#FBBF24]/20 text-[#FBBF24]">
             <Users className="h-4 w-4" />
           </div>
           <div className="flex-1 overflow-hidden">
-            <h3 className="truncate text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            <h3 className="truncate text-[9px] font-bold uppercase tracking-wider text-white/40 font-mono">
               Workspace
             </h3>
-            <p className="truncate text-xs font-bold text-slate-800 dark:text-slate-100">
+            <p className="truncate text-xs font-bold text-white">
               Engineering Team
             </p>
           </div>
-          <span className="flex h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-500/30" />
+          <span className="flex h-1.5 w-1.5 rounded-full bg-[#A5FF2A] ring-2 ring-[#A5FF2A]/20" />
         </div>
 
         {/* NAVBAR LINKS */}
@@ -112,21 +112,21 @@ const Sidebar = () => {
         <div className="mt-4 flex w-full items-center justify-between px-6 py-2">
           <button
             onClick={() => setShowProjects((prev) => !prev)}
-            className="flex items-center gap-2 font-bold tracking-wider text-[11px] uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
+            className="flex items-center gap-2 font-bold tracking-wider text-[10px] uppercase text-white/40 hover:text-white/60 transition"
           >
             <span>Projects ({projects?.length || 0})</span>
             {showProjects ? (
-              <ChevronUp className="h-3.5 w-3.5" />
+              <ChevronUp className="h-3 w-3" />
             ) : (
-              <ChevronDown className="h-3.5 w-3.5" />
+              <ChevronDown className="h-3 w-3" />
             )}
           </button>
           <button
             onClick={() => setIsModalNewProjectOpen(true)}
-            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white transition"
+            className="rounded-md p-1 text-white/50 hover:bg-white/10 hover:text-white transition"
             title="Create New Project"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-3.5 w-3.5" />
           </button>
         </div>
         {/* PROJECTS LIST */}
@@ -147,13 +147,13 @@ const Sidebar = () => {
         <div className="mt-4 flex w-full items-center justify-between px-6 py-2">
           <button
             onClick={() => setShowPriority((prev) => !prev)}
-            className="flex items-center gap-2 font-bold tracking-wider text-[11px] uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
+            className="flex items-center gap-2 font-bold tracking-wider text-[10px] uppercase text-white/40 hover:text-white/60 transition"
           >
             <span>Priority Views</span>
             {showPriority ? (
-              <ChevronUp className="h-3.5 w-3.5" />
+              <ChevronUp className="h-3 w-3" />
             ) : (
-              <ChevronDown className="h-3.5 w-3.5" />
+              <ChevronDown className="h-3 w-3" />
             )}
           </button>
         </div>
@@ -195,19 +195,18 @@ interface SidebarLinkProps {
 
 const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   const pathname = usePathname();
-  const isActive =
-    pathname === href || (pathname === "/" && href === "/dashboard");
+  const isActive = pathname === href;
 
   return (
     <Link href={href} className="w-full">
       <div
-        className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-150 ${
+        className={`relative flex items-center gap-3 rounded-md px-3 py-2 text-xs font-semibold transition-all duration-150 ${
           isActive
-            ? "bg-blue-600/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400 font-bold"
-            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-900/60 dark:hover:text-slate-100"
+            ? "bg-[#FBBF24]/10 text-[#FBBF24] border-l-2 border-l-[#FBBF24] font-bold"
+            : "text-white/60 hover:bg-white/5 hover:text-white"
         }`}
       >
-        <Icon className={`h-4 w-4 ${isActive ? "text-blue-600 dark:text-blue-400" : "text-slate-400"}`} />
+        <Icon className={`h-4 w-4 ${isActive ? "text-[#FBBF24]" : "text-white/40"}`} />
         <span className="truncate">{label}</span>
       </div>
     </Link>

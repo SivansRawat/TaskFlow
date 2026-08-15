@@ -50,7 +50,7 @@ const taskColumns: GridColDef[] = [
     headerName: "Key",
     width: 110,
     renderCell: (params) => (
-      <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800">
+      <span className="font-mono text-xs font-bold text-[#FBBF24] bg-[#FBBF24]/10 px-2 py-0.5 rounded border border-[#FBBF24]/20">
         {params.row.issueKey || `TF-${params.row.id + 100}`}
       </span>
     ),
@@ -61,7 +61,7 @@ const taskColumns: GridColDef[] = [
     headerName: "Status",
     width: 150,
     renderCell: (params) => (
-      <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+      <span className="rounded-sm border border-white/20 bg-white/5 px-2.5 py-0.5 text-xs font-semibold text-white/80">
         {params.value}
       </span>
     ),
@@ -74,12 +74,12 @@ const taskColumns: GridColDef[] = [
       const p = params.value;
       const color =
         p === "Urgent"
-          ? "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300"
+          ? "border-red-500/30 bg-red-500/10 text-red-400"
           : p === "High"
-          ? "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300"
-          : "bg-gray-100 text-gray-700 dark:bg-neutral-800 dark:text-gray-300";
+          ? "border-orange-500/30 bg-orange-500/10 text-orange-400"
+          : "border-white/10 bg-white/5 text-white/60";
       return (
-        <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${color}`}>
+        <span className={`rounded-sm border px-2.5 py-0.5 text-xs font-semibold ${color}`}>
           {p}
         </span>
       );
@@ -88,7 +88,7 @@ const taskColumns: GridColDef[] = [
   { field: "dueDate", headerName: "Due Date", width: 150 },
 ];
 
-const COLORS = ["#2563EB", "#10B981", "#F59E0B", "#EF4444"];
+const COLORS = ["#FBBF24", "#F59E0B", "#A5FF2A", "#FFFFFF"];
 
 const HomePage = () => {
   const { data: currentUser } = useGetAuthUserQuery(null);
@@ -111,7 +111,7 @@ const HomePage = () => {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   if (tasksLoading || isProjectsLoading) {
-    return <div className="p-8 font-semibold dark:text-white">Loading Workspace Dashboard...</div>;
+    return <div className="p-8 font-semibold text-[#FBBF24]">LOADING WORKSPACE DASHBOARD...</div>;
   }
 
   const tasks = userTasks || [];
@@ -172,24 +172,17 @@ const HomePage = () => {
       count: statusCount[key],
     }));
 
-  const chartColors = isDarkMode
-    ? {
-        bar: "#60A5FA",
-        barGrid: "#262626",
-        pieFill: "#3B82F6",
-        text: "#F3F4F6",
-      }
-    : {
-        bar: "#2563EB",
-        barGrid: "#E5E7EB",
-        pieFill: "#3B82F6",
-        text: "#1F2937",
-      };
+  const chartColors = {
+    bar: "#FBBF24", // Primary #FBBF24
+    barGrid: "rgba(255, 255, 255, 0.06)",
+    pieFill: "#FBBF24",
+    text: "rgba(255, 255, 255, 0.6)",
+  };
 
   const hasData = tasks.length > 0 || allProjects.length > 0;
 
   return (
-    <div className="container h-full w-[100%] bg-gray-100 bg-transparent p-8">
+    <div className="container h-full w-[100%] bg-transparent p-8">
       <ModalNewProject
         isOpen={isModalNewProjectOpen}
         onClose={() => setIsModalNewProjectOpen(false)}
@@ -201,7 +194,7 @@ const HomePage = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsModalNewProjectOpen(true)}
-            className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-bold text-white shadow hover:bg-blue-700 transition"
+            className="flex items-center gap-2 rounded-md bg-[#FBBF24] px-4 py-2.5 text-xs font-bold text-black hover:bg-[#F59E0B] transition-colors"
           >
             <PlusSquare className="h-4 w-4" /> Create Project
           </button>
@@ -211,74 +204,74 @@ const HomePage = () => {
       {/* Metric Cards Bar */}
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Card 1 */}
-        <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary dark:text-white">
+        <div className="rounded-lg bg-[#18181B]/75 border border-white/12 p-5 backdrop-blur-md text-white shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white/50 font-mono">
               Assigned Tasks
             </span>
-            <div className="rounded-lg bg-blue-50 p-2 text-blue-600 dark:bg-neutral-800 dark:text-blue-400">
-              <CheckCircle2 className="h-5 w-5" />
+            <div className="rounded-md bg-[#FBBF24]/10 p-2 text-[#FBBF24] border border-[#FBBF24]/20">
+              <CheckCircle2 className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold">{tasks.length}</span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
+            <span className="text-2xl font-bold tracking-tight">{tasks.length}</span>
+            <span className="text-xs text-white/50">
               ({completedTasksCount} completed)
             </span>
           </div>
         </div>
 
         {/* Card 2 */}
-        <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary dark:text-white">
+        <div className="rounded-lg bg-[#18181B]/75 border border-white/12 p-5 backdrop-blur-md text-white shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white/50 font-mono">
               Active Projects
             </span>
-            <div className="rounded-lg bg-purple-50 p-2 text-purple-600 dark:bg-neutral-800 dark:text-purple-400">
-              <Briefcase className="h-5 w-5" />
+            <div className="rounded-md bg-[#A5FF2A]/10 p-2 text-[#A5FF2A] border border-[#A5FF2A]/20">
+              <Briefcase className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold">{allProjects.length}</span>
-            <span className="text-xs text-purple-600 dark:text-purple-400 font-semibold">
-              Live Workspaces
+            <span className="text-2xl font-bold tracking-tight">{allProjects.length}</span>
+            <span className="text-xs text-[#A5FF2A]/80 font-bold uppercase font-mono tracking-wider">
+              Workspaces
             </span>
           </div>
         </div>
 
         {/* Card 3 */}
-        <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary dark:text-white">
+        <div className="rounded-lg bg-[#18181B]/75 border border-white/12 p-5 backdrop-blur-md text-white shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white/50 font-mono">
               Priority Alerts
             </span>
-            <div className="rounded-lg bg-orange-50 p-2 text-orange-600 dark:bg-neutral-800 dark:text-orange-400">
-              <AlertTriangle className="h-5 w-5" />
+            <div className="rounded-md bg-[#F59E0B]/10 p-2 text-[#F59E0B] border border-[#F59E0B]/20">
+              <AlertTriangle className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold">{urgentTasksCount}</span>
-            <span className="text-xs text-orange-600 dark:text-orange-400 font-semibold">
-              High / Urgent
+            <span className="text-2xl font-bold tracking-tight">{urgentTasksCount}</span>
+            <span className="text-xs text-[#F59E0B]/80 font-bold uppercase font-mono tracking-wider">
+              Urgent / High
             </span>
           </div>
         </div>
 
         {/* Card 4 */}
-        <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary dark:text-white">
+        <div className="rounded-lg bg-[#18181B]/75 border border-white/12 p-5 backdrop-blur-md text-white shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white/50 font-mono">
               Team Membership
             </span>
-            <div className="rounded-lg bg-green-50 p-2 text-green-600 dark:bg-neutral-800 dark:text-green-400">
-              <Users className="h-5 w-5" />
+            <div className="rounded-md bg-white/5 p-2 text-white/70 border border-white/10">
+              <Users className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3">
-            <div className="truncate text-base font-bold text-gray-800 dark:text-white">
+            <div className="truncate text-sm font-bold text-white uppercase font-mono">
               {userTeam ? userTeam.teamName : "No Team Joined"}
             </div>
-            <Link href="/teams" className="mt-1 flex items-center gap-1 text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400">
+            <Link href="/teams" className="mt-1 flex items-center gap-1 text-[10px] font-bold text-[#FBBF24] hover:underline uppercase tracking-wide font-mono">
               Manage Teams <ArrowUpRight className="h-3 w-3" />
             </Link>
           </div>
@@ -286,31 +279,31 @@ const HomePage = () => {
       </div>
 
       {!hasData ? (
-        <div className="mt-6 rounded-xl bg-white p-10 text-center shadow dark:bg-dark-secondary dark:text-white">
-          <h2 className="text-2xl font-bold">Your Workspace is Ready 🚀</h2>
-          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        <div className="mt-6 rounded-lg bg-[#18181B]/75 border border-white/12 p-10 text-center backdrop-blur-md text-white shadow-lg">
+          <h2 className="text-xl font-bold uppercase tracking-wide">Workspace is Ready 🚀</h2>
+          <p className="mt-2 text-xs text-white/50">
             Create your first project or join a team to start tracking your workflow and tasks.
           </p>
           <div className="mt-6 flex justify-center gap-4">
             <button
               onClick={() => setIsModalNewProjectOpen(true)}
-              className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition shadow"
+              className="flex items-center gap-2 rounded-md bg-[#FBBF24] px-5 py-2.5 text-xs font-bold text-black hover:bg-[#F59E0B] transition shadow"
             >
-              <PlusSquare className="h-5 w-5" /> Create Your First Project
+              <PlusSquare className="h-4 w-4" /> Create Your First Project
             </button>
             <Link
               href="/teams"
-              className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition shadow dark:border-neutral-700 dark:bg-neutral-800 dark:text-gray-200"
+              className="flex items-center gap-2 rounded-md border border-white/15 bg-[#18181B] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#27272A] transition"
             >
-              <Users className="h-5 w-5" /> Explore & Join Teams
+              <Users className="h-4 w-4" /> Explore & Join Teams
             </Link>
           </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Chart 1 */}
-          <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary">
-            <h3 className="mb-4 text-base font-bold dark:text-white">
+          <div className="rounded-lg bg-[#18181B]/75 border border-white/12 p-5 backdrop-blur-md shadow-lg">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-white/50 font-mono">
               Task Priority Analytics
             </h3>
             {taskDistribution.length > 0 ? (
@@ -320,32 +313,32 @@ const HomePage = () => {
                     strokeDasharray="3 3"
                     stroke={chartColors.barGrid}
                   />
-                  <XAxis dataKey="name" stroke={chartColors.text} />
-                  <YAxis stroke={chartColors.text} />
+                  <XAxis dataKey="name" stroke={chartColors.text} tick={{ fontSize: 10 }} />
+                  <YAxis stroke={chartColors.text} tick={{ fontSize: 10 }} />
                   <Tooltip
                     contentStyle={{
                       borderRadius: "8px",
-                      border: "none",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      backgroundColor: "rgba(24,24,27,0.9)",
                     }}
                   />
-                  <Bar dataKey="count" fill={chartColors.bar} radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="count" fill={chartColors.bar} radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <p className="text-xs text-gray-500 dark:text-gray-400">No priority data available.</p>
+              <p className="text-xs text-white/40">No priority data available.</p>
             )}
           </div>
 
           {/* Chart 2 */}
-          <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary">
-            <h3 className="mb-4 text-base font-bold dark:text-white">
+          <div className="rounded-lg bg-[#18181B]/75 border border-white/12 p-5 backdrop-blur-md shadow-lg">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-white/50 font-mono">
               Project Status Distribution
             </h3>
             {projectStatus.length > 0 ? (
               <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
-                  <Pie dataKey="count" data={projectStatus} fill="#82ca9d" label>
+                  <Pie dataKey="count" data={projectStatus} fill="#82ca9d" label={{ fill: "#fff", fontSize: 10 }}>
                     {projectStatus.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
@@ -353,12 +346,18 @@ const HomePage = () => {
                       />
                     ))}
                   </Pie>
-                  <Tooltip />
-                  <Legend />
+                  <Tooltip
+                    contentStyle={{
+                      borderRadius: "8px",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      backgroundColor: "rgba(24,24,27,0.9)",
+                    }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: 11 }} />
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <p className="text-xs text-gray-500 dark:text-gray-400">No project status data available.</p>
+              <p className="text-xs text-white/40">No project status data available.</p>
             )}
           </div>
 
@@ -366,17 +365,17 @@ const HomePage = () => {
           {(() => {
             const gridTasks = tasks.length > 0 ? tasks : (allWorkspaceTasks || []);
             return (
-              <div className="rounded-xl bg-white p-5 shadow dark:bg-dark-secondary md:col-span-2">
+              <div className="rounded-lg bg-[#18181B]/75 border border-white/12 p-5 backdrop-blur-md md:col-span-2 shadow-lg">
                 <TaskDetailModal
                   task={selectedTask}
                   isOpen={Boolean(selectedTask)}
                   onClose={() => setSelectedTask(null)}
                 />
                 <div className="mb-4 flex items-center justify-between">
-                  <h3 className="text-base font-bold dark:text-white">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-white/50 font-mono">
                     Your Assigned Tasks ({gridTasks.length})
                   </h3>
-                  <Link href="/timeline" className="text-xs font-bold text-blue-600 hover:underline dark:text-blue-400">
+                  <Link href="/timeline" className="text-xs font-bold text-[#FBBF24] hover:underline uppercase tracking-wide font-mono">
                     View Timeline View →
                   </Link>
                 </div>
@@ -390,7 +389,7 @@ const HomePage = () => {
                     getRowClassName={() => "data-grid-row cursor-pointer"}
                     getCellClassName={() => "data-grid-cell"}
                     className={dataGridClassNames}
-                    sx={dataGridSxStyles(isDarkMode)}
+                    sx={dataGridSxStyles(true)} // Force Dark Mode settings for grid cells
                   />
                 </div>
               </div>

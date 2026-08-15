@@ -25,12 +25,11 @@ const CustomToolbar = () => (
 const Users = () => {
   const { data: users, isLoading, isError } = useGetUsersQuery();
   const { data: teams } = useGetTeamsQuery();
-  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
-  if (isLoading) return <div className="p-8 font-semibold text-slate-500">Loading user directory...</div>;
+  if (isLoading) return <div className="p-8 font-semibold text-[#FBBF24]">LOADING USER DIRECTORY...</div>;
   if (isError || !users) return <div className="p-8 font-semibold text-red-500">Error fetching user directory</div>;
 
   const allUsers = users || [];
@@ -46,7 +45,7 @@ const Users = () => {
       headerName: "User ID",
       width: 90,
       renderCell: (params) => (
-        <span className="font-mono text-xs font-bold text-slate-500 dark:text-slate-400">
+        <span className="font-mono text-xs font-bold text-white/50">
           #{params.value}
         </span>
       ),
@@ -64,14 +63,14 @@ const Users = () => {
                 alt={params.row.username}
                 width={32}
                 height={32}
-                className="h-full w-full rounded-full object-cover border border-slate-700"
+                className="h-full w-full rounded-full object-cover border border-white/12"
               />
             ) : (
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 font-bold text-white text-xs uppercase">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#18181B] border border-white/12 font-bold text-white text-xs uppercase">
                 {params.row.username?.charAt(0) || "U"}
               </div>
             )}
-            <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-[#A5FF2A] ring-2 ring-[#09090B]" />
           </div>
         </div>
       ),
@@ -81,7 +80,7 @@ const Users = () => {
       headerName: "Username",
       width: 180,
       renderCell: (params) => (
-        <span className="font-bold text-slate-900 dark:text-white">{params.value}</span>
+        <span className="font-bold text-white">{params.value}</span>
       ),
     },
     {
@@ -89,7 +88,7 @@ const Users = () => {
       headerName: "Email Address",
       width: 220,
       renderCell: (params) => (
-        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+        <span className="text-xs text-white/50 font-medium">
           {params.value || `${params.row.username?.toLowerCase()}@taskflow.dev`}
         </span>
       ),
@@ -101,7 +100,7 @@ const Users = () => {
       renderCell: (params) => {
         const team = teams?.find((t) => (t as any).id === params.value || t.teamId === params.value);
         return (
-          <span className="rounded-full bg-blue-50 dark:bg-blue-950/50 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+          <span className="rounded-sm bg-white/5 px-2.5 py-0.5 text-xs font-semibold text-white border border-white/12">
             {team ? team.teamName : "Engineering Team"}
           </span>
         );
@@ -115,7 +114,7 @@ const Users = () => {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <Header name="User Directory" />
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-xs text-white/50">
             Manage organization members, engineering team roles, and access credentials.
           </p>
         </div>
@@ -123,33 +122,33 @@ const Users = () => {
 
       {/* Metrics Summary Row */}
       <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400">
+        <div className="flex items-center gap-4 rounded-lg border border-white/12 bg-[#18181B]/75 p-5 backdrop-blur-md text-white shadow-lg">
+          <div className="flex h-12 w-12 items-center justify-center rounded-md bg-[#FBBF24]/10 border border-[#FBBF24]/20 text-[#FBBF24]">
             <UsersIcon className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-2xl font-black text-slate-900 dark:text-white">{allUsers.length}</div>
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Active Users</div>
+            <div className="text-2xl font-bold tracking-tight">{allUsers.length}</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">Total Active Users</div>
           </div>
         </div>
 
-        <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
+        <div className="flex items-center gap-4 rounded-lg border border-white/12 bg-[#18181B]/75 p-5 backdrop-blur-md text-white shadow-lg">
+          <div className="flex h-12 w-12 items-center justify-center rounded-md bg-[#A5FF2A]/10 border border-[#A5FF2A]/20 text-[#A5FF2A]">
             <ShieldCheck className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-2xl font-black text-slate-900 dark:text-white">{teams?.length || 5}</div>
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Engineering Teams</div>
+            <div className="text-2xl font-bold tracking-tight">{teams?.length || 5}</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">Engineering Teams</div>
           </div>
         </div>
 
-        <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400">
+        <div className="flex items-center gap-4 rounded-lg border border-white/12 bg-[#18181B]/75 p-5 backdrop-blur-md text-white shadow-lg">
+          <div className="flex h-12 w-12 items-center justify-center rounded-md bg-white/5 border border-white/10 text-white/80">
             <Mail className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-2xl font-black text-slate-900 dark:text-white">100%</div>
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Verified Credentials</div>
+            <div className="text-2xl font-bold tracking-tight">100%</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">Verified Credentials</div>
           </div>
         </div>
       </div>
@@ -157,33 +156,33 @@ const Users = () => {
       {/* Toolbar Controls */}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div className="relative min-w-[240px]">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-white/40" />
           <input
             type="text"
             placeholder="Search by username or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-800 dark:bg-slate-900 dark:text-white transition"
+            className="w-full rounded-md border border-white/12 bg-[#18181B] py-2 pl-9 pr-3 text-xs text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition"
           />
         </div>
 
-        <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex items-center gap-1 rounded-md border border-white/12 bg-[#18181B] p-1">
           <button
             onClick={() => setViewMode("cards")}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition ${
               viewMode === "cards"
-                ? "bg-blue-600 text-white shadow"
-                : "text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                ? "bg-[#FBBF24] text-black shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
             }`}
           >
             <LayoutGrid className="h-3.5 w-3.5" /> Team Cards
           </button>
           <button
             onClick={() => setViewMode("table")}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition ${
               viewMode === "table"
-                ? "bg-blue-600 text-white shadow"
-                : "text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                ? "bg-[#FBBF24] text-black shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
             }`}
           >
             <ListIcon className="h-3.5 w-3.5" /> DataGrid Table
@@ -199,7 +198,7 @@ const Users = () => {
             return (
               <div
                 key={user.userId}
-                className="group relative flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:border-blue-500/50 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 transition-all text-center"
+                className="group relative flex flex-col items-center rounded-lg border border-white/12 bg-[#18181B]/75 p-6 backdrop-blur-md text-center transition-all duration-200 hover:border-[#FBBF24]/30 hover:scale-[1.01]"
               >
                 <div className="relative mb-3 h-16 w-16">
                   {user.profilePictureUrl ? (
@@ -208,24 +207,24 @@ const Users = () => {
                       alt={user.username}
                       width={64}
                       height={64}
-                      className="h-full w-full rounded-full object-cover border-2 border-slate-200 dark:border-slate-700"
+                      className="h-full w-full rounded-full object-cover border-2 border-white/12"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-xl font-bold text-white uppercase shadow-md">
+                    <div className="flex h-full w-full items-center justify-center rounded-full bg-[#09090B] border border-white/12 text-xl font-bold text-white uppercase shadow-md">
                       {user.username.charAt(0)}
                     </div>
                   )}
-                  <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
+                  <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full bg-[#A5FF2A] ring-2 ring-[#18181B]" />
                 </div>
 
-                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition">
+                <h3 className="text-base font-bold text-white group-hover:text-[#FBBF24] transition">
                   {user.username}
                 </h3>
-                <p className="mb-3 text-xs text-slate-400">
+                <p className="mb-3 text-xs text-white/50">
                   {user.email || `${user.username.toLowerCase()}@taskflow.dev`}
                 </p>
 
-                <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                <span className="rounded-sm border border-white/12 bg-white/5 px-3 py-0.5 text-xs font-semibold text-white/75 font-mono">
                   {team ? team.teamName : "Software Engineer"}
                 </span>
               </div>
@@ -233,7 +232,7 @@ const Users = () => {
           })}
         </div>
       ) : (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div className="rounded-lg border border-white/12 bg-[#18181B]/75 p-4 backdrop-blur-md shadow-lg">
           <div style={{ height: 600, width: "100%" }}>
             <DataGrid
               rows={filteredUsers}
@@ -244,7 +243,7 @@ const Users = () => {
                 toolbar: CustomToolbar,
               }}
               className={dataGridClassNames}
-              sx={dataGridSxStyles(isDarkMode)}
+              sx={dataGridSxStyles(true)}
             />
           </div>
         </div>

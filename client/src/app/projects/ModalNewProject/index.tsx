@@ -50,7 +50,7 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
   };
 
   const inputStyles =
-    "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+    "w-full rounded-md border border-white/12 bg-[#09090B] p-2 text-xs font-semibold text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition";
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} name="Create New Project">
@@ -75,22 +75,28 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
-          <input
-            type="date"
-            className={inputStyles}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-          <input
-            type="date"
-            className={inputStyles}
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
+          <div>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">Start Date</label>
+            <input
+              type="date"
+              className={inputStyles}
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono mb-1">End Date</label>
+            <input
+              type="date"
+              className={inputStyles}
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
         </div>
         <button
           type="submit"
-          className={`focus-offset-2 mt-4 flex w-full justify-center rounded-md border border-transparent bg-blue-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+          className={`mt-4 flex w-full justify-center rounded-md bg-[#FBBF24] px-4 py-2.5 text-xs font-bold text-black hover:bg-[#F59E0B] focus:outline-none transition ${
             !isFormValid() || isLoading ? "cursor-not-allowed opacity-50" : ""
           }`}
           disabled={!isFormValid() || isLoading}

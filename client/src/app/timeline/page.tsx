@@ -12,7 +12,6 @@ import ModalNewProject from "@/app/projects/ModalNewProject";
 type TaskTypeItems = "task" | "milestone" | "project";
 
 const Timeline = () => {
-  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const { data: projects, isLoading, isError } = useGetProjectsQuery();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -59,10 +58,10 @@ const Timeline = () => {
 
   if (isLoading) {
     return (
-      <div className="flex h-96 items-center justify-center p-8 font-semibold text-gray-600 dark:text-gray-300">
-        <div className="flex items-center gap-3">
-          <Clock className="h-5 w-5 animate-spin text-blue-600" />
-          Loading Projects Timeline...
+      <div className="flex h-96 items-center justify-center p-8 font-semibold text-[#FBBF24]">
+        <div className="flex items-center gap-3 font-mono text-sm tracking-wide">
+          <Clock className="h-5 w-5 animate-spin text-[#FBBF24]" />
+          LOADING PROJECTS TIMELINE...
         </div>
       </div>
     );
@@ -70,14 +69,14 @@ const Timeline = () => {
 
   if (isError || !projects) {
     return (
-      <div className="p-8 text-center text-red-500">
+      <div className="p-8 text-center text-red-400 font-semibold">
         An error occurred while fetching project timelines.
       </div>
     );
   }
 
   return (
-    <div className="max-w-full p-6 sm:p-8">
+    <div className="max-w-full p-6 sm:p-8 bg-transparent">
       <ModalNewProject
         isOpen={isModalNewProjectOpen}
         onClose={() => setIsModalNewProjectOpen(false)}
@@ -87,43 +86,43 @@ const Timeline = () => {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <Header name="Projects Timeline & Gantt Roadmap" />
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs text-white/50">
             Visualize multi-week project schedules, milestone targets, and delivery dates.
           </p>
         </div>
 
         <button
           onClick={() => setIsModalNewProjectOpen(true)}
-          className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow hover:bg-blue-700 transition"
+          className="flex items-center gap-2 rounded-md bg-[#FBBF24] px-4 py-2 text-xs font-bold text-black hover:bg-[#F59E0B] transition-colors"
         >
           <PlusSquare className="h-4 w-4" /> Add Project
         </button>
       </div>
 
       {/* Controls Toolbar */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl bg-white p-4 shadow dark:bg-dark-secondary dark:text-white border border-gray-200/80 dark:border-neutral-800">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/12 bg-[#18181B]/75 p-4 backdrop-blur-md text-white shadow-lg">
         {/* Search */}
         <div className="relative flex-1 min-w-[220px]">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
           <input
             type="text"
             placeholder="Search timeline projects..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 bg-gray-50 pl-9 pr-4 py-2 text-xs text-gray-800 focus:border-blue-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+            className="w-full rounded-md border border-white/12 bg-[#09090B] pl-9 pr-4 py-2 text-xs text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition"
           />
         </div>
 
         {/* View Mode Switcher Pills */}
-        <div className="flex items-center gap-1 rounded-lg bg-gray-100 p-1 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700">
+        <div className="flex items-center gap-1 rounded-md bg-[#09090B] p-1 border border-white/10">
           <button
             onClick={() =>
               setDisplayOptions((prev) => ({ ...prev, viewMode: ViewMode.Day }))
             }
-            className={`flex items-center gap-1 rounded.5 px-3 py-1.5 text-xs font-semibold transition ${
+            className={`flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
               displayOptions.viewMode === ViewMode.Day
-                ? "bg-white text-blue-600 shadow dark:bg-neutral-700 dark:text-white"
-                : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                ? "bg-[#FBBF24] text-black shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
             }`}
           >
             Day
@@ -133,10 +132,10 @@ const Timeline = () => {
             onClick={() =>
               setDisplayOptions((prev) => ({ ...prev, viewMode: ViewMode.Week }))
             }
-            className={`flex items-center gap-1 rounded.5 px-3 py-1.5 text-xs font-semibold transition ${
+            className={`flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
               displayOptions.viewMode === ViewMode.Week
-                ? "bg-white text-blue-600 shadow dark:bg-neutral-700 dark:text-white"
-                : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                ? "bg-[#FBBF24] text-black shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
             }`}
           >
             Week
@@ -146,10 +145,10 @@ const Timeline = () => {
             onClick={() =>
               setDisplayOptions((prev) => ({ ...prev, viewMode: ViewMode.Month }))
             }
-            className={`flex items-center gap-1 rounded.5 px-3 py-1.5 text-xs font-semibold transition ${
+            className={`flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
               displayOptions.viewMode === ViewMode.Month
-                ? "bg-white text-blue-600 shadow dark:bg-neutral-700 dark:text-white"
-                : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                ? "bg-[#FBBF24] text-black shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
             }`}
           >
             Month
@@ -158,7 +157,7 @@ const Timeline = () => {
       </div>
 
       {/* Gantt Container */}
-      <div className="overflow-hidden rounded-xl bg-white shadow-md dark:bg-dark-secondary border border-gray-200/80 dark:border-neutral-800">
+      <div className="overflow-hidden rounded-lg border border-white/12 bg-[#18181B]/75 backdrop-blur-md shadow-lg">
         {ganttTasks.length > 0 ? (
           <div className="timeline p-2">
             <Gantt
@@ -172,25 +171,25 @@ const Timeline = () => {
                   : 65
               }
               listCellWidth="160px"
-              projectBackgroundColor={isDarkMode ? "#2563EB" : "#3B82F6"}
-              projectProgressColor={isDarkMode ? "#1D4ED8" : "#2563EB"}
-              projectProgressSelectedColor={isDarkMode ? "#1E40AF" : "#1D4ED8"}
+              projectBackgroundColor="#FBBF24"
+              projectProgressColor="#F59E0B"
+              projectProgressSelectedColor="#D97706"
             />
           </div>
         ) : (
-          <div className="p-12 text-center">
-            <Calendar className="mx-auto h-12 w-12 text-gray-300 dark:text-neutral-600" />
-            <h3 className="mt-3 text-base font-bold text-gray-800 dark:text-white">
+          <div className="p-12 text-center backdrop-blur-md bg-transparent">
+            <Calendar className="mx-auto h-12 w-12 text-white/20" />
+            <h3 className="mt-3 text-base font-bold text-white uppercase tracking-wider">
               No Projects Found on Timeline
             </h3>
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-xs text-white/40">
               {searchQuery
                 ? `No projects matched "${searchQuery}"`
                 : "Create a new project to start scheduling delivery milestones."}
             </p>
             <button
               onClick={() => setIsModalNewProjectOpen(true)}
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow hover:bg-blue-700 transition"
+              className="mt-4 inline-flex items-center gap-2 rounded-md bg-[#FBBF24] px-4 py-2 text-xs font-bold text-black hover:bg-[#F59E0B] transition-colors"
             >
               <PlusSquare className="h-4 w-4" /> Create First Project
             </button>

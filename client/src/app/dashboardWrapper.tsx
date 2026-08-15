@@ -5,32 +5,35 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import AuthProvider from "./authProvider";
 import StoreProvider, { useAppSelector } from "./redux";
+import WebGLBackground from "@/components/WebGLBackground";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
-  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  });
+    // Enforce dark mode as the visual system foundation
+    document.documentElement.classList.add("dark");
+  }, []);
 
   return (
-    <div className="flex min-h-screen w-full bg-gray-50 text-gray-900">
-      <Sidebar />
-      <main
-        className={`flex w-full flex-col bg-gray-50 dark:bg-dark-bg ${
-          isSidebarCollapsed ? "" : "md:pl-64"
-        }`}
-      >
-        <Navbar />
-        {children}
-      </main>
+    <div className="relative flex min-h-screen w-full bg-[#09090B] text-white">
+      {/* Background layer */}
+      <WebGLBackground />
+
+      {/* Foreground layout */}
+      <div className="relative z-10 flex w-full">
+        <Sidebar />
+        <main
+          className={`flex w-full flex-col bg-transparent transition-all duration-300 ${
+            isSidebarCollapsed ? "" : "md:pl-64"
+          }`}
+        >
+          <Navbar />
+          {children}
+        </main>
+      </div>
     </div>
   );
 };

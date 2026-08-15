@@ -30,7 +30,7 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
           name="Project Workspace"
           buttonComponent={
             <button
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-xs font-bold text-white shadow-md hover:from-blue-500 hover:to-indigo-500 transition"
+              className="flex items-center gap-2 rounded-md bg-[#FBBF24] px-4 py-2.5 text-xs font-bold text-black hover:bg-[#F59E0B] transition-colors"
               onClick={() => setIsModalNewProjectOpen(true)}
             >
               <PlusSquare className="h-4 w-4" /> New Project
@@ -40,7 +40,7 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
       </div>
 
       {/* TABS */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 pb-3 dark:border-slate-800/80">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/12 pb-3">
         <div className="flex flex-wrap items-center gap-2">
           <TabButton
             name="Board"
@@ -84,10 +84,10 @@ const TabButton = ({ name, icon, setActiveTab, activeTab }: TabButtonProps) => {
 
   return (
     <button
-      className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-150 ${
+      className={`flex items-center gap-2 rounded-md px-4 py-2 text-xs font-bold transition-all duration-150 ${
         isActive
-          ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-          : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-900/80 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+          ? "bg-[#FBBF24] text-black shadow-md"
+          : "bg-[#18181B] text-white/60 border border-white/10 hover:bg-white/5 hover:text-white"
       }`}
       onClick={() => setActiveTab(name)}
     >

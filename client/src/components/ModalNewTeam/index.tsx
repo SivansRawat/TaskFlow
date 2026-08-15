@@ -31,10 +31,10 @@ const ModalNewTeam = ({ isOpen, onClose }: Props) => {
   };
 
   const inputStyles =
-    "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+    "w-full rounded-md border border-white/12 bg-[#09090B] p-2 text-xs font-semibold text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition";
 
   const selectStyles =
-    "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+    "w-full rounded-md border border-white/12 bg-[#09090B] p-2 text-xs font-semibold text-white focus:border-[#FBBF24] focus:outline-none transition";
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} name="Create New Team">
@@ -46,7 +46,7 @@ const ModalNewTeam = ({ isOpen, onClose }: Props) => {
         }}
       >
         <div>
-          <label className="mb-1 block text-sm font-medium dark:text-white">Team Name</label>
+          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">Team Name</label>
           <input
             type="text"
             className={inputStyles}
@@ -58,7 +58,7 @@ const ModalNewTeam = ({ isOpen, onClose }: Props) => {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium dark:text-white">Product Owner (Optional)</label>
+          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">Product Owner (Optional)</label>
           <select
             className={selectStyles}
             value={productOwnerUserId}
@@ -74,7 +74,7 @@ const ModalNewTeam = ({ isOpen, onClose }: Props) => {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium dark:text-white">Project Manager (Optional)</label>
+          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">Project Manager (Optional)</label>
           <select
             className={selectStyles}
             value={projectManagerUserId}
@@ -91,7 +91,7 @@ const ModalNewTeam = ({ isOpen, onClose }: Props) => {
 
         <button
           type="submit"
-          className={`mt-4 flex w-full justify-center rounded-md border border-transparent bg-blue-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none ${
+          className={`mt-4 flex w-full justify-center rounded-md bg-[#FBBF24] px-4 py-2.5 text-xs font-bold text-black hover:bg-[#F59E0B] focus:outline-none transition ${
             !teamName.trim() || isLoading ? "cursor-not-allowed opacity-50" : ""
           }`}
           disabled={!teamName.trim() || isLoading}

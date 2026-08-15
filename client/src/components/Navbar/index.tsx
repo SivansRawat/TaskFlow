@@ -30,13 +30,13 @@ const Navbar = () => {
   const currentUserDetails = currentUser?.userDetails;
 
   return (
-    <div className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-200/80 bg-white/80 px-4 py-3 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80 transition-all">
+    <div className="sticky top-0 z-40 flex items-center justify-between border-b border-white/12 bg-[#09090B]/60 px-4 py-3 backdrop-blur-md transition-all">
       {/* Search Bar & Sidebar Toggle */}
       <div className="flex items-center gap-4 md:gap-6">
         {!isSidebarCollapsed ? null : (
           <button
             onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}
-            className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white transition"
+            className="rounded-md p-2 text-white/60 hover:bg-white/10 hover:text-white transition"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -44,12 +44,12 @@ const Navbar = () => {
         <form onSubmit={handleSearchSubmit} className="relative flex h-min w-[220px] md:w-[300px]">
           <Search
             onClick={handleSearchSubmit}
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer text-slate-400 hover:text-blue-500 transition"
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer text-white/40 hover:text-[#FBBF24] transition"
           />
           <input
-            className="w-full rounded-xl border border-slate-200 bg-slate-100/70 py-2 pl-9 pr-8 text-xs text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-800 dark:bg-slate-900/90 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-blue-500 transition"
+            className="w-full rounded-md border border-white/12 bg-[#18181B] py-2 pl-9 pr-8 text-xs text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition"
             type="search"
-            placeholder="Search projects, tasks (⌘K)..."
+            placeholder="Search projects, tasks..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -60,53 +60,53 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         <button
           onClick={() => dispatch(setIsDarkMode(!isDarkMode))}
-          className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition"
+          className="rounded-md p-2 text-white/60 hover:bg-white/10 hover:text-white transition"
           title="Toggle Dark/Light Mode"
         >
           {isDarkMode ? (
-            <Sun className="h-5 w-5 text-amber-400" />
+            <Sun className="h-5 w-5 text-[#FBBF24]" />
           ) : (
-            <Moon className="h-5 w-5 text-slate-600" />
+            <Moon className="h-5 w-5 text-[#FBBF24]" />
           )}
         </button>
 
         <Link
           href="/settings"
-          className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition"
+          className="rounded-md p-2 text-white/60 hover:bg-white/10 hover:text-white transition"
           title="Workspace Settings"
         >
           <Settings className="h-5 w-5" />
         </Link>
 
-        <div className="mx-2 hidden h-5 w-[1px] bg-slate-200 dark:bg-slate-800 md:block" />
+        <div className="mx-2 hidden h-5 w-[1px] bg-white/10 md:block" />
 
         <div className="flex items-center gap-3">
-          <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-xs font-bold text-white shadow-sm">
+          <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#18181B] border border-white/15 text-xs font-bold text-white shadow-sm">
             {currentUserDetails?.profilePictureUrl ? (
               <Image
                 src={`/${currentUserDetails?.profilePictureUrl}`}
                 alt={currentUserDetails?.username || "User Avatar"}
                 width={32}
                 height={32}
-                className="h-full w-full rounded-full object-cover border border-slate-700"
+                className="h-full w-full rounded-full object-cover border border-white/10"
               />
             ) : (
               <span>{currentUserDetails?.username?.charAt(0) || "U"}</span>
             )}
-            <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-[#A5FF2A] ring-2 ring-[#09090B]" />
           </div>
 
           <div className="hidden flex-col md:flex">
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
+            <span className="text-xs font-bold text-white">
               {currentUserDetails?.username || "Demo Admin"}
             </span>
-            <span className="text-[10px] font-medium text-slate-400">
+            <span className="text-[10px] font-medium text-white/50">
               {currentUserDetails?.email || "admin@taskflow.dev"}
             </span>
           </div>
 
           <button
-            className="ml-2 hidden rounded-lg bg-slate-100 border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-red-50 hover:border-red-200 hover:text-red-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-red-950/40 dark:hover:border-red-900 dark:hover:text-red-400 md:block transition"
+            className="ml-2 hidden rounded-md border border-white/12 bg-[#18181B] px-3 py-1.5 text-xs font-bold text-white/85 hover:bg-red-950/40 hover:border-red-800 hover:text-red-400 md:block transition"
             onClick={() => {
               localStorage.removeItem("taskflow_user_sub");
               window.location.reload();

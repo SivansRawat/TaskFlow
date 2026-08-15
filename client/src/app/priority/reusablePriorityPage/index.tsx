@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
     headerName: "Key",
     width: 110,
     renderCell: (params) => (
-      <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800">
+      <span className="font-mono text-xs font-bold text-[#FBBF24] bg-[#FBBF24]/10 px-2 py-0.5 rounded border border-[#FBBF24]/20">
         {params.row.issueKey || `TF-${params.row.id + 100}`}
       </span>
     ),
@@ -47,7 +47,7 @@ const columns: GridColDef[] = [
     headerName: "Status",
     width: 140,
     renderCell: (params) => (
-      <span className="inline-flex rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+      <span className="inline-flex rounded-sm border border-white/20 bg-white/5 px-2.5 py-0.5 text-xs font-semibold text-white/80">
         {params.value}
       </span>
     ),
@@ -85,7 +85,6 @@ const ReusablePriorityPage = ({ priority }: Props) => {
   });
 
   const { data: allTasks, isLoading: isAllTasksLoading } = useGetTasksQuery();
-  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   const availableTasks = (userTasks && userTasks.length > 0) ? userTasks : (allTasks || []);
   const filteredTasks = availableTasks.filter(
@@ -95,11 +94,11 @@ const ReusablePriorityPage = ({ priority }: Props) => {
   const isLoading = isUserTasksLoading || isAllTasksLoading;
 
   const priorityColors: Record<string, { bg: string; text: string; icon: any }> = {
-    Urgent: { bg: "bg-red-500/10 border-red-500/30", text: "text-red-500", icon: AlertCircle },
-    High: { bg: "bg-amber-500/10 border-amber-500/30", text: "text-amber-500", icon: ShieldAlert },
-    Medium: { bg: "bg-blue-500/10 border-blue-500/30", text: "text-blue-500", icon: AlertTriangle },
-    Low: { bg: "bg-emerald-500/10 border-emerald-500/30", text: "text-emerald-500", icon: AlertOctagon },
-    Backlog: { bg: "bg-slate-500/10 border-slate-500/30", text: "text-slate-400", icon: Layers3 },
+    Urgent: { bg: "bg-red-500/10 border-red-500/30", text: "text-red-400", icon: AlertCircle },
+    High: { bg: "bg-orange-500/10 border-orange-500/30", text: "text-orange-400", icon: ShieldAlert },
+    Medium: { bg: "bg-[#F59E0B]/10 border-[#F59E0B]/30", text: "text-[#F59E0B]", icon: AlertTriangle },
+    Low: { bg: "bg-[#A5FF2A]/10 border-[#A5FF2A]/30", text: "text-[#A5FF2A]", icon: AlertOctagon },
+    Backlog: { bg: "bg-white/5 border-white/10", text: "text-white/40", icon: Layers3 },
   };
 
   const currentPriorityConfig = priorityColors[priority] || priorityColors.Backlog;
@@ -118,21 +117,21 @@ const ReusablePriorityPage = ({ priority }: Props) => {
       />
 
       {/* Priority Banner */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/12 bg-[#18181B]/75 p-6 backdrop-blur-md text-white shadow-lg">
         <div className="flex items-center gap-4">
-          <div className={`flex h-12 w-12 items-center justify-center rounded-2xl border ${currentPriorityConfig.bg} ${currentPriorityConfig.text}`}>
+          <div className={`flex h-12 w-12 items-center justify-center rounded-md border ${currentPriorityConfig.bg} ${currentPriorityConfig.text}`}>
             <IconComp className="h-6 w-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-black text-slate-900 dark:text-white">
+              <h1 className="text-xl font-bold text-white uppercase tracking-tight">
                 {priority} Priority Tasks
               </h1>
-              <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 text-xs font-bold text-slate-600 dark:text-slate-300">
+              <span className="rounded-sm border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-bold text-white/70 font-mono">
                 {filteredTasks.length} Issues
               </span>
             </div>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-xs text-white/50">
               Filtered workspace view of all issues flagged with {priority} priority level.
             </p>
           </div>
@@ -141,7 +140,7 @@ const ReusablePriorityPage = ({ priority }: Props) => {
         {/* Create Task Button */}
         <button
           onClick={() => setIsModalNewTaskOpen(true)}
-          className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white shadow hover:bg-blue-700 transition"
+          className="flex items-center gap-2 rounded-md bg-[#FBBF24] px-4 py-2.5 text-xs font-bold text-black hover:bg-[#F59E0B] transition"
         >
           <Plus className="h-4 w-4" /> Add Task
         </button>
@@ -149,23 +148,23 @@ const ReusablePriorityPage = ({ priority }: Props) => {
 
       {/* View Switcher Controls */}
       <div className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex items-center gap-2 rounded-md border border-white/12 bg-[#18181B] p-1">
           <button
             onClick={() => setView("grid")}
-            className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+            className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-bold transition ${
               view === "grid"
-                ? "bg-blue-600 text-white shadow"
-                : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-[#FBBF24] text-black shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
             }`}
           >
             <Grid className="h-3.5 w-3.5" /> Card Grid
           </button>
           <button
             onClick={() => setView("table")}
-            className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+            className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-bold transition ${
               view === "table"
-                ? "bg-blue-600 text-white shadow"
-                : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-[#FBBF24] text-black shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
             }`}
           >
             <ListIcon className="h-3.5 w-3.5" /> DataGrid Table
@@ -175,16 +174,16 @@ const ReusablePriorityPage = ({ priority }: Props) => {
 
       {/* Content Rendering */}
       {isLoading ? (
-        <div className="p-8 text-center text-sm font-bold text-slate-500">
+        <div className="p-8 text-center text-sm font-bold text-white/40">
           Loading {priority} priority tasks...
         </div>
       ) : filteredTasks.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 p-12 text-center dark:border-slate-800">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-white/15 bg-[#18181B]/50 p-12 text-center backdrop-blur-md">
           <IconComp className={`mb-3 h-10 w-10 ${currentPriorityConfig.text}`} />
-          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider">
             No {priority} Priority Tasks Found
           </h3>
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-white/40">
             There are currently no tasks flagged with {priority} priority.
           </p>
         </div>
@@ -195,7 +194,7 @@ const ReusablePriorityPage = ({ priority }: Props) => {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div className="rounded-lg border border-white/12 bg-[#18181B]/75 p-4 backdrop-blur-md shadow-lg">
           <DataGrid
             rows={filteredTasks}
             columns={columns}
@@ -204,7 +203,7 @@ const ReusablePriorityPage = ({ priority }: Props) => {
             onRowClick={(params) => setSelectedTask(params.row)}
             getRowClassName={() => "data-grid-row cursor-pointer"}
             className={dataGridClassNames}
-            sx={dataGridSxStyles(isDarkMode)}
+            sx={dataGridSxStyles(true)}
           />
         </div>
       )}

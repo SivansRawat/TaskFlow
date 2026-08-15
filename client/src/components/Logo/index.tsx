@@ -15,15 +15,10 @@ const Logo = ({ className = "h-9 w-9", size = 36 }: LogoProps) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <defs>
-        <linearGradient id="taskflow-brand-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#2563EB" />
-          <stop offset="100%" stopColor="#7C3AED" />
-        </linearGradient>
-      </defs>
-      <rect width="100" height="100" rx="24" fill="url(#taskflow-brand-grad)" />
-      <path d="M24 28H76V40H56V76H44V40H24V28Z" fill="white" />
-      <circle cx="70" cy="30" r="6" fill="#38BDF8" />
+      {/* 8px border radius on a 100x100 box corresponds to rx="22" (approx 22% of size) */}
+      <rect width="100" height="100" rx="22" fill="#18181B" stroke="rgba(255,255,255,0.15)" strokeWidth="4" />
+      <path d="M28 32H72V42H55V72H45V42H28V32Z" fill="#FBBF24" />
+      <circle cx="72" cy="32" r="6" fill="#A5FF2A" />
     </svg>
   );
 };

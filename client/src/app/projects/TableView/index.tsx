@@ -14,7 +14,7 @@ const columns: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
-    width: 100,
+    width: 150,
   },
   {
     field: "description",
@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
     headerName: "Status",
     width: 130,
     renderCell: (params) => (
-      <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+      <span className="inline-flex rounded-sm border border-white/20 bg-white/5 px-2.5 py-0.5 text-xs font-semibold text-white/80 font-mono">
         {params.value}
       </span>
     ),
@@ -34,7 +34,7 @@ const columns: GridColDef[] = [
   {
     field: "priority",
     headerName: "Priority",
-    width: 75,
+    width: 100,
   },
   {
     field: "tags",
@@ -66,24 +66,23 @@ const columns: GridColDef[] = [
 ];
 
 const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
-  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const {
     data: tasks,
     error,
     isLoading,
   } = useGetTasksQuery({ projectId: Number(id) });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !tasks) return <div>An error occurred while fetching tasks</div>;
+  if (isLoading) return <div className="p-8 font-semibold text-[#FBBF24]">LOADING PROJECT TASK DATABASE...</div>;
+  if (error || !tasks) return <div className="p-8 font-semibold text-red-500">An error occurred while fetching tasks</div>;
 
   return (
-    <div className="h-[540px] w-full px-4 pb-8 xl:px-6">
-      <div className="pt-5">
+    <div className="w-full px-4 pb-8 xl:px-6">
+      <div className="pt-5 pb-4">
         <Header
-          name="Table"
+          name="Task Database Table"
           buttonComponent={
             <button
-              className="flex items-center rounded bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+              className="flex items-center rounded-md bg-[#FBBF24] px-4 py-2 text-xs font-bold text-black hover:bg-[#F59E0B] transition-colors"
               onClick={() => setIsModalNewTaskOpen(true)}
             >
               Add Task
@@ -92,12 +91,16 @@ const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
           isSmallText
         />
       </div>
-      <DataGrid
-        rows={tasks || []}
-        columns={columns}
-        className={dataGridClassNames}
-        sx={dataGridSxStyles(isDarkMode)}
-      />
+      <div className="rounded-lg border border-white/12 bg-[#18181B]/75 p-4 backdrop-blur-md shadow-lg">
+        <div style={{ height: 500, width: "100%" }}>
+          <DataGrid
+            rows={tasks || []}
+            columns={columns}
+            className={dataGridClassNames}
+            sx={dataGridSxStyles(true)}
+          />
+        </div>
+      </div>
     </div>
   );
 };

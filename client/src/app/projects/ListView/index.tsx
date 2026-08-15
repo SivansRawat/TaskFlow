@@ -42,7 +42,7 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
   });
 
   return (
-    <div className="px-4 pb-8 xl:px-6">
+    <div className="px-4 pb-8 xl:px-6 bg-transparent text-white">
       <TaskDetailModal
         task={selectedTask}
         isOpen={Boolean(selectedTask)}
@@ -54,23 +54,23 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
         <div className="flex flex-wrap items-center gap-3">
           {/* Search Box */}
           <div className="relative min-w-[220px]">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-white/40" />
             <input
               type="text"
               placeholder="Filter by title or TF-101..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none dark:border-slate-800 dark:bg-slate-900 dark:text-white transition"
+              className="w-full rounded-md border border-white/12 bg-[#18181B] py-2 pl-9 pr-3 text-xs font-semibold text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition"
             />
           </div>
 
           {/* Priority Filter */}
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-slate-400" />
+            <Filter className="h-4 w-4 text-white/40" />
             <select
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
-              className="rounded-xl border border-slate-200 bg-white p-2 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 focus:border-blue-500 focus:outline-none transition"
+              className="rounded-md border border-white/12 bg-[#18181B] p-2 text-xs font-bold text-white focus:border-[#FBBF24] focus:outline-none transition"
             >
               <option value="ALL">All Priorities</option>
               <option value="Urgent">🔥 Urgent</option>
@@ -84,13 +84,13 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
 
         {/* View Toggle & Add Button */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900">
+          <div className="flex items-center gap-1 rounded-md border border-white/12 bg-[#18181B] p-1">
             <button
               onClick={() => setViewMode("list")}
-              className={`rounded-lg p-1.5 transition ${
+              className={`rounded-md p-1.5 transition ${
                 viewMode === "list"
-                  ? "bg-blue-600 text-white shadow"
-                  : "text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                  ? "bg-[#FBBF24] text-black shadow"
+                  : "text-white/60 hover:text-white"
               }`}
               title="Table List View"
             >
@@ -98,10 +98,10 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
             </button>
             <button
               onClick={() => setViewMode("card")}
-              className={`rounded-lg p-1.5 transition ${
+              className={`rounded-md p-1.5 transition ${
                 viewMode === "card"
-                  ? "bg-blue-600 text-white shadow"
-                  : "text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                  ? "bg-[#FBBF24] text-black shadow"
+                  : "text-white/60 hover:text-white"
               }`}
               title="Card Grid View"
             >
@@ -110,7 +110,7 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
           </div>
 
           <button
-            className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow hover:bg-blue-700 transition"
+            className="flex items-center gap-2 rounded-md bg-[#FBBF24] px-4 py-2 text-xs font-bold text-black hover:bg-[#F59E0B] transition"
             onClick={() => setIsModalNewTaskOpen(true)}
           >
             <Plus className="h-4 w-4" /> Add Task
@@ -120,11 +120,11 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
 
       {/* Render Tasks */}
       {filteredTasks.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 p-12 text-center dark:border-slate-800">
-          <p className="text-sm font-bold text-slate-700 dark:text-slate-300">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-white/15 bg-[#18181B]/50 p-12 text-center backdrop-blur-md">
+          <p className="text-sm font-bold text-white uppercase tracking-wider">
             No matching tasks found
           </p>
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-white/40">
             Try adjusting your search term or filter settings.
           </p>
         </div>
@@ -154,19 +154,19 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
               <div
                 key={task.id}
                 onClick={() => setSelectedTask(task)}
-                className="group flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:border-blue-500/50 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 transition-all cursor-pointer"
+                className="group flex flex-wrap items-center justify-between gap-4 rounded-lg border border-white/12 bg-[#18181B]/75 p-4 text-white hover:border-[#FBBF24]/30 hover:scale-[1.005] transition-all duration-200 cursor-pointer"
               >
                 {/* Left Section: Key, Title & Description */}
                 <div className="flex items-center gap-3 min-w-[280px] flex-1">
-                  <span className="rounded-md bg-blue-600/10 border border-blue-500/20 px-2.5 py-1 font-mono text-xs font-bold text-blue-600 dark:text-blue-400">
+                  <span className="rounded-sm bg-[#FBBF24]/10 border border-[#FBBF24]/20 px-2.5 py-0.5 font-mono text-xs font-bold text-[#FBBF24]">
                     {issueKey}
                   </span>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition">
+                    <h4 className="text-sm font-bold text-white group-hover:text-[#FBBF24] transition">
                       {task.title}
                     </h4>
                     {task.description && (
-                      <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
+                      <p className="text-xs text-white/50 line-clamp-1">
                         {task.description}
                       </p>
                     )}
@@ -175,30 +175,30 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
 
                 {/* Status & Priority Badges */}
                 <div className="flex items-center gap-3">
-                  <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+                  <span className="rounded-sm border border-white/20 bg-white/5 px-2.5 py-0.5 text-xs font-semibold text-white/80">
                     {task.status || "To Do"}
                   </span>
-                  <span className="rounded-md bg-slate-100 dark:bg-slate-800 px-2.5 py-1 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  <span className="rounded-sm border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs font-bold text-white/70 font-mono uppercase">
                     {task.priority || "Backlog"}
                   </span>
                   {task.points !== undefined && task.points !== null && (
-                    <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] font-extrabold text-slate-700 dark:text-slate-300">
+                    <span className="rounded-sm bg-white/10 border border-white/10 px-2 py-0.5 text-[9px] font-bold text-white/80 font-mono">
                       {task.points} pts
                     </span>
                   )}
                 </div>
 
                 {/* Right Section: Subtasks & Assignee */}
-                <div className="flex items-center gap-4 text-xs text-slate-400">
+                <div className="flex items-center gap-4 text-xs text-white/50">
                   {subtaskCount > 0 && (
-                    <span className="flex items-center gap-1 font-semibold text-slate-400">
-                      <CheckSquare className="h-3.5 w-3.5 text-blue-400" />
+                    <span className="flex items-center gap-1 font-semibold text-white/60">
+                      <CheckSquare className="h-3.5 w-3.5 text-[#FBBF24]" />
                       {completedSubtasks}/{subtaskCount}
                     </span>
                   )}
                   {task.comments && task.comments.length > 0 && (
                     <span className="flex items-center gap-1 font-semibold">
-                      <MessageSquare className="h-3.5 w-3.5 text-slate-400" />
+                      <MessageSquare className="h-3.5 w-3.5 text-white/40" />
                       {task.comments.length}
                     </span>
                   )}
@@ -209,10 +209,10 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
                       alt={task.assignee.username}
                       width={24}
                       height={24}
-                      className="h-6 w-6 rounded-full object-cover border border-slate-700"
+                      className="h-6 w-6 rounded-full object-cover border border-white/10"
                     />
                   ) : (
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white uppercase">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#09090B] border border-white/12 text-[10px] font-bold text-white uppercase font-mono">
                       {task.assignee?.username?.charAt(0) || "U"}
                     </span>
                   )}

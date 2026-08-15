@@ -127,21 +127,21 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
     subtasks.length > 0 ? Math.round((completedSubtasksCount / subtasks.length) * 100) : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative flex h-full w-full max-w-2xl flex-col bg-slate-900 border-l border-slate-800 p-6 text-slate-100 shadow-2xl overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative flex h-full w-full max-w-2xl flex-col bg-[#18181B] border-l border-white/12 p-6 text-white shadow-2xl overflow-y-auto">
         {/* Header Bar */}
-        <div className="mb-6 flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="mb-6 flex items-center justify-between border-b border-white/12 pb-4">
           <div className="flex items-center gap-3">
-            <span className="rounded-lg bg-blue-600/20 border border-blue-500/30 px-3 py-1 font-mono text-xs font-bold text-blue-400">
+            <span className="rounded-sm bg-[#FBBF24]/10 border border-[#FBBF24]/20 px-3 py-0.5 font-mono text-xs font-bold text-[#FBBF24]">
               {issueKey}
             </span>
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-[10px] font-bold text-white/50 uppercase tracking-wider font-mono">
               Project #{task.projectId}
             </span>
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition"
+            className="rounded-md p-1.5 text-white/40 hover:bg-white/5 hover:text-white transition"
           >
             <X className="h-5 w-5" />
           </button>
@@ -149,7 +149,7 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
 
         {/* Title Input */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400">
+          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">
             Task Title
           </label>
           <input
@@ -157,14 +157,14 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onBlur={() => handleSaveField({ title })}
-            className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-lg font-bold text-white focus:border-blue-500 focus:outline-none transition"
+            className="w-full rounded-md border border-white/12 bg-[#09090B] p-3 text-base font-bold text-white focus:border-[#FBBF24] focus:outline-none transition"
           />
         </div>
 
         {/* Status & Priority Row */}
-        <div className="mb-6 grid grid-cols-2 gap-4 rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+        <div className="mb-6 grid grid-cols-2 gap-4 rounded-md border border-white/10 bg-[#09090B] p-4">
           <div>
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+            <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">
               Status
             </label>
             <select
@@ -174,7 +174,7 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
                 setStatus(val);
                 handleSaveField({ status: val });
               }}
-              className="w-full rounded-lg border border-slate-800 bg-slate-900 p-2 text-xs font-bold text-white focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-md border border-white/12 bg-[#18181B] p-2 text-xs font-bold text-white focus:border-[#FBBF24] focus:outline-none"
             >
               <option value={Status.ToDo}>To Do</option>
               <option value={Status.WorkInProgress}>Work In Progress</option>
@@ -184,7 +184,7 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+            <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">
               Priority
             </label>
             <select
@@ -194,20 +194,20 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
                 setPriority(val);
                 handleSaveField({ priority: val });
               }}
-              className="w-full rounded-lg border border-slate-800 bg-slate-900 p-2 text-xs font-bold text-white focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-md border border-white/12 bg-[#18181B] p-2 text-xs font-bold text-white focus:border-[#FBBF24] focus:outline-none"
             >
-              <option value={Priority.Urgent}>🔥 Urgent</option>
-              <option value={Priority.High}>⚡ High</option>
-              <option value={Priority.Medium}>⭐ Medium</option>
-              <option value={Priority.Low}>🔹 Low</option>
-              <option value={Priority.Backlog}>📦 Backlog</option>
+              <option value={Priority.Urgent}>Urgent</option>
+              <option value={Priority.High}>High</option>
+              <option value={Priority.Medium}>Medium</option>
+              <option value={Priority.Low}>Low</option>
+              <option value={Priority.Backlog}>Backlog</option>
             </select>
           </div>
         </div>
 
         {/* Description Section */}
         <div className="mb-6">
-          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">
             Description
           </label>
           <textarea
@@ -216,14 +216,14 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
             onChange={(e) => setDescription(e.target.value)}
             onBlur={() => handleSaveField({ description })}
             placeholder="Add detailed task notes, acceptance criteria or instructions..."
-            className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm text-slate-200 placeholder-slate-500 focus:border-blue-500 focus:outline-none transition"
+            className="w-full rounded-md border border-white/12 bg-[#09090B] p-3 text-xs font-semibold text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none transition"
           />
         </div>
 
-        {/* Assignee & Points Bar */}
+        {/* Assignee & Story Points Bar */}
         <div className="mb-6 grid grid-cols-2 gap-4">
           <div>
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+            <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">
               Assignee
             </label>
             <select
@@ -233,7 +233,7 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
                 setAssignedUserId(val);
                 handleSaveField({ assignedUserId: val ? Number(val) : undefined });
               }}
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs font-semibold text-white focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-md border border-white/12 bg-[#09090B] p-3 text-xs font-semibold text-white focus:border-[#FBBF24] focus:outline-none"
             >
               <option value="">Unassigned</option>
               {users?.map((u) => (
@@ -245,7 +245,7 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+            <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-white/40 font-mono">
               Story Points
             </label>
             <input
@@ -254,24 +254,24 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
               value={points}
               onChange={(e) => setPoints(e.target.value === "" ? "" : Number(e.target.value))}
               onBlur={() => handleSaveField({ points: points === "" ? undefined : Number(points) })}
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs font-bold text-white focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-md border border-white/12 bg-[#09090B] p-3 text-xs font-semibold text-white focus:border-[#FBBF24] focus:outline-none"
             />
           </div>
         </div>
 
         {/* Subtask Checklist Section */}
-        <div className="mb-6 rounded-xl border border-slate-800 bg-slate-950 p-4">
+        <div className="mb-6 rounded-md border border-white/12 bg-[#09090B] p-4">
           <div className="mb-3 flex items-center justify-between">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-              <CheckSquare className="h-4 w-4 text-blue-400" /> Subtask Checklist ({completedSubtasksCount}/{subtasks.length})
+            <h4 className="text-[10px] font-bold uppercase tracking-wider text-white/80 font-mono flex items-center gap-2">
+              <CheckSquare className="h-4 w-4 text-[#FBBF24]" /> Subtask Checklist ({completedSubtasksCount}/{subtasks.length})
             </h4>
-            <span className="text-xs font-bold text-blue-400">{subtaskProgressPercent}%</span>
+            <span className="text-xs font-bold text-[#FBBF24] font-mono">{subtaskProgressPercent}%</span>
           </div>
 
           {/* Progress Bar */}
-          <div className="mb-4 h-2 w-full overflow-hidden rounded-full bg-slate-800">
+          <div className="mb-4 h-2 w-full overflow-hidden rounded-full bg-[#18181B] border border-white/5">
             <div
-              className="h-full bg-gradient-to-r from-blue-600 to-indigo-500 transition-all duration-300"
+              className="h-full bg-[#FBBF24] transition-all duration-300"
               style={{ width: `${subtaskProgressPercent}%` }}
             />
           </div>
@@ -281,26 +281,26 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
             {subtasks.map((st) => (
               <div
                 key={st.id}
-                className="flex items-center justify-between rounded-lg bg-slate-900/80 p-2.5 border border-slate-800/60 text-xs hover:border-slate-700 transition"
+                className="flex items-center justify-between rounded-md bg-[#18181B]/50 p-2.5 border border-white/10 text-xs hover:border-white/20 transition"
               >
                 <button
                   type="button"
                   onClick={() => handleSubtaskToggle(st.id)}
-                  className="flex items-center gap-2.5 text-left text-slate-200"
+                  className="flex items-center gap-2.5 text-left text-white"
                 >
                   {st.completed ? (
-                    <CheckSquare className="h-4 w-4 text-blue-400" />
+                    <CheckSquare className="h-4 w-4 text-[#FBBF24]" />
                   ) : (
-                    <Square className="h-4 w-4 text-slate-500" />
+                    <Square className="h-4 w-4 text-white/30" />
                   )}
-                  <span className={st.completed ? "line-through text-slate-500" : "font-medium"}>
+                  <span className={st.completed ? "line-through text-white/40" : "font-semibold"}>
                     {st.title}
                   </span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDeleteSubtask(st.id)}
-                  className="text-slate-500 hover:text-red-400 transition"
+                  className="text-white/40 hover:text-red-400 transition"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
@@ -321,12 +321,12 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
                   handleAddSubtask();
                 }
               }}
-              className="flex-1 rounded-lg border border-slate-800 bg-slate-900 p-2 text-xs text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+              className="flex-1 rounded-md border border-white/12 bg-[#18181B] p-2 text-xs text-white placeholder-white/30 focus:border-[#FBBF24] focus:outline-none"
             />
             <button
               type="button"
               onClick={handleAddSubtask}
-              className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white hover:bg-blue-500 transition flex items-center gap-1"
+              className="rounded-md bg-[#FBBF24] px-4 py-2 text-xs font-bold text-black hover:bg-[#F59E0B] transition flex items-center gap-1"
             >
               <Plus className="h-4 w-4" /> Add
             </button>
@@ -334,23 +334,23 @@ const TaskDetailModal = ({ task, isOpen, onClose }: Props) => {
         </div>
 
         {/* Comments Section */}
-        <div className="mt-auto border-t border-slate-800 pt-4">
-          <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-            <MessageSquare className="h-4 w-4 text-blue-400" /> Activity & Comments ({task.comments?.length || 0})
+        <div className="mt-auto border-t border-white/10 pt-4">
+          <h4 className="mb-3 text-[10px] font-bold uppercase tracking-wider text-white/50 font-mono flex items-center gap-2">
+            <MessageSquare className="h-4 w-4 text-[#FBBF24]" /> Activity & Comments ({task.comments?.length || 0})
           </h4>
           {task.comments && task.comments.length > 0 ? (
             <div className="space-y-2 max-h-40 overflow-y-auto pr-2">
               {task.comments.map((c) => (
-                <div key={c.id} className="rounded-lg bg-slate-950 p-2.5 border border-slate-800/50 text-xs">
-                  <div className="font-bold text-blue-400 mb-0.5">
+                <div key={c.id} className="rounded-md bg-[#09090B] p-2.5 border border-white/10 text-xs">
+                  <div className="font-bold text-[#FBBF24] font-mono text-[10px] uppercase tracking-wider mb-0.5">
                     {c.user?.username || `User #${c.userId}`}
                   </div>
-                  <div className="text-slate-300">{c.text}</div>
+                  <div className="text-white/80">{c.text}</div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-xs text-slate-500">No comments posted yet.</p>
+            <p className="text-xs text-white/30">No comments posted yet.</p>
           )}
         </div>
       </div>
