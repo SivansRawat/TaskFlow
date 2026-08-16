@@ -66,29 +66,36 @@ const SpectrumSimulation: React.FC = () => {
       const centerX = numBars / 2;
 
       for (let i = 0; i < numBars; i++) {
-        // Gaussian bell curve distribution
+        // Gaussian bell curve distribution (Full height spectrum arch)
         const normalizedPos = (i - centerX) / (numBars * 0.44);
         const gaussian = Math.exp(-0.5 * normalizedPos * normalizedPos);
 
-        // Sine wave dynamics
-        const wave1 = Math.sin(time * 2.2 + i * 0.18) * 0.18;
-        const wave2 = Math.sin(time * 3.7 - i * 0.32) * 0.12;
-        const wave3 = Math.cos(time * 1.4 + i * 0.08) * 0.08;
+        // Sine wave dynamics — Full dynamic range
+        const wave1 = Math.sin(time * 2.2 + i * 0.18) * 0.16;
+        const wave2 = Math.sin(time * 3.7 - i * 0.32) * 0.11;
+        const wave3 = Math.cos(time * 1.4 + i * 0.08) * 0.07;
 
-        // Mouse interaction wave
+        // Interactive pointer wave boost
         let mouseBoost = 0;
         if (mousePos.current.active) {
           const barCenterX = barPadding + i * (barWidth + barPadding) + barWidth / 2;
           const dist = Math.abs(mousePos.current.x - barCenterX);
-          if (dist < 120) {
-            mouseBoost = Math.cos((dist / 120) * (Math.PI / 2)) * 0.25;
+          if (dist < 130) {
+            mouseBoost = Math.cos((dist / 130) * (Math.PI / 2)) * 0.22;
           }
         }
 
-        let heightFactor = (gaussian * 0.76 + wave1 + wave2 + wave3 + mouseBoost);
-        heightFactor = Math.max(0.06, Math.min(0.97, heightFactor));
+        const rawHeightFactor = gaussian * 0.74 + wave1 + wave2 + wave3 + mouseBoost;
 
-        const maxBarHeight = height * 0.92;
+        // Continuous soft saturation curve (no flat horizontal clamping)
+        let heightFactor = rawHeightFactor;
+        if (heightFactor > 0.88) {
+          heightFactor = 0.88 + Math.tanh((heightFactor - 0.88) * 0.7) * 0.11;
+        }
+        heightFactor = Math.max(0.06, heightFactor);
+
+        // Full wave height preserved (94% of height)
+        const maxBarHeight = height * 0.94;
         const currentBarHeight = maxBarHeight * heightFactor;
 
         const x = barPadding + i * (barWidth + barPadding);
@@ -101,10 +108,10 @@ const SpectrumSimulation: React.FC = () => {
           const isTopCap = j === totalSegments - 1;
 
           if (isTopCap) {
-            // Glowing white cap tip
+            // Glowing white cap tip with amber halo
             ctx.fillStyle = "#FFFFFF";
-            ctx.shadowColor = "rgba(251, 191, 36, 0.9)";
-            ctx.shadowBlur = 8;
+            ctx.shadowColor = "rgba(251, 191, 36, 0.95)";
+            ctx.shadowBlur = 10;
           } else if (segmentRatio > 0.82) {
             // Warm bright yellow-white
             ctx.fillStyle = "#FEF08A";
@@ -161,8 +168,11 @@ const SpectrumSimulation: React.FC = () => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Canvas Layer — Direct Unboxed Bleed */}
-      <div className="absolute inset-0 z-0">
+      {/* Background Radial Glow */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_bottom,rgba(251,191,36,0.15),transparent_75%)] opacity-90" />
+
+      {/* Canvas Layer — Extended Top Bleed so full-length waves never get cut off */}
+      <div className="absolute -top-12 inset-x-0 bottom-0 z-0">
         <canvas ref={canvasRef} className="w-full h-full block" />
       </div>
 

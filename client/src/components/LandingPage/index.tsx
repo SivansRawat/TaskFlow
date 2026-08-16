@@ -3,6 +3,7 @@
 import React from "react";
 import Logo from "@/components/Logo";
 import SpectrumSimulation from "./SpectrumSimulation";
+import ModularPuzzleFeatures from "./ModularPuzzleFeatures";
 import { ArrowRight, Kanban, Calendar, BarChart3, Users, ShieldCheck, Zap } from "lucide-react";
 
 interface LandingPageProps {
@@ -142,82 +143,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
         </div>
       </section>
 
-      {/* DETAILED FEATURES MATRIX GRID */}
-      <section id="features" className="relative z-10 py-20 px-6 lg:px-12 max-w-[1440px] mx-auto border-t border-white/10">
-        <div className="text-left mb-12">
-          <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight uppercase">
-            ENGINEERED FOR WORKSPACE VELOCITY
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card 1 */}
-          <div className="rounded-lg bg-[#18181B]/80 border border-white/10 p-6 transition-all duration-200 hover:border-[#FBBF24]/40 hover:bg-[#18181B]">
-            <div className="h-10 w-10 rounded-md bg-[#FBBF24]/10 border border-[#FBBF24]/30 flex items-center justify-center text-[#FBBF24] mb-4">
-              <Kanban className="h-5 w-5" />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2 uppercase tracking-wide">Agile Kanban Boards</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
-              Organize sprint cycles, manage column status categories, and configure high-priority labels dynamically.
-            </p>
-          </div>
-
-          {/* Card 2 */}
-          <div className="rounded-lg bg-[#18181B]/80 border border-white/10 p-6 transition-all duration-200 hover:border-[#FBBF24]/40 hover:bg-[#18181B]">
-            <div className="h-10 w-10 rounded-md bg-[#A5FF2A]/10 border border-[#A5FF2A]/30 flex items-center justify-center text-[#A5FF2A] mb-4">
-              <Calendar className="h-5 w-5" />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2 uppercase tracking-wide">Interactive Gantt</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
-              Track project milestones and roadmap schedules with simple toggles across Day, Week, and Month scales.
-            </p>
-          </div>
-
-          {/* Card 3 */}
-          <div className="rounded-lg bg-[#18181B]/80 border border-white/10 p-6 transition-all duration-200 hover:border-[#FBBF24]/40 hover:bg-[#18181B]">
-            <div className="h-10 w-10 rounded-md bg-[#F59E0B]/10 border border-[#F59E0B]/30 flex items-center justify-center text-[#F59E0B] mb-4">
-              <BarChart3 className="h-5 w-5" />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2 uppercase tracking-wide">Priority Analytics</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
-              View task status allocations, filter workloads, and identify bottlenecks with charts built for clarity.
-            </p>
-          </div>
-
-          {/* Card 4 */}
-          <div className="rounded-lg bg-[#18181B]/80 border border-white/10 p-6 transition-all duration-200 hover:border-white/30 hover:bg-[#18181B]">
-            <div className="h-10 w-10 rounded-md bg-white/5 border border-white/15 flex items-center justify-center text-white mb-4">
-              <Users className="h-5 w-5" />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2 uppercase tracking-wide">Multi-Tenant Isolation</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
-              Strict boundary enforcement locks user accounts, team structures, and database items to organization nodes.
-            </p>
-          </div>
-
-          {/* Card 5 */}
-          <div className="rounded-lg bg-[#18181B]/80 border border-white/10 p-6 transition-all duration-200 hover:border-[#FBBF24]/40 hover:bg-[#18181B]">
-            <div className="h-10 w-10 rounded-md bg-[#FBBF24]/10 border border-[#FBBF24]/30 flex items-center justify-center text-[#FBBF24] mb-4">
-              <Zap className="h-5 w-5" />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2 uppercase tracking-wide">Smart Notifications</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
-              Receive notifications for critical deadline approaches, urgent status flags, and sprint team modifications.
-            </p>
-          </div>
-
-          {/* Card 6 */}
-          <div className="rounded-lg bg-[#18181B]/80 border border-white/10 p-6 transition-all duration-200 hover:border-[#FBBF24]/40 hover:bg-[#18181B]">
-            <div className="h-10 w-10 rounded-md bg-[#A5FF2A]/10 border border-[#A5FF2A]/30 flex items-center justify-center text-[#A5FF2A] mb-4">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2 uppercase tracking-wide">Enterprise Operations</h3>
-            <p className="text-xs text-white/50 leading-relaxed">
-              Prisma ORM data structures, secure session keys, input schema controls, and production-ready latency bounds.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* DETAILED FEATURES MATRIX GRID — MODULAR PUZZLE SYSTEM */}
+      <ModularPuzzleFeatures />
 
       {/* FOOTER CALL TO ACTION */}
       <section className="relative z-10 py-20 px-6 lg:px-12 max-w-5xl mx-auto text-center border-t border-white/10">
